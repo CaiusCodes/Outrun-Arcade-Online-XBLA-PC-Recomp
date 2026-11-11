@@ -29,8 +29,15 @@ keybind_right_shoulder = "C"
 
 # PC display settings (Help & Options > Settings and Graphics save them in pc-settings.toml).
 pc_settings_prototype = true
+# First-install defaults follow the Xbox 360 original: no FPS counter, no
+# extra texture filtering (the game's samplers ask for none), its own 4x MSAA,
+# original HUD and picture. Players can change all of them in Help & Options.
 resolution_scale = 1
-show_fps = true
+show_fps = false
+gpu_native_texture_filtering = 0
+gpu_native_msaa = 4
+outrun_hud = 0
+outrun_present_filter = 0
 occlusion_query_enable = true
 occlusion_resolve_per_frame = false
 outrun_async_queries = true
