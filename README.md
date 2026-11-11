@@ -65,7 +65,6 @@ The installation is portable: imported game files, saves and settings are stored
 - Local high-score initials entered directly in the game's ranking table, with pad or keyboard
 - **Exit Game** from the main menu; Xbox LIVE-only menus, achievements and "Connecting" panels removed
 - Built-in **update checker** (Help & Options → Check for Updates)
-- **F8 bug mark** for reports (see below)
 - Portable installation with local saves and settings
 
 ### Multiplayer
@@ -95,7 +94,6 @@ No Xbox Live connection is required.
 | Q, E | X, Y |
 | Z, C | LB, RB |
 | Mouse | Menus: hover, click, right click = back, wheel = scroll |
-| F8 | Mark a bug in the log (screenshot + details) |
 
 An Xbox controller is recommended and uses the original console controls.
 
@@ -133,11 +131,11 @@ Alternatively, download the latest release ZIP and extract it over your existing
 
 Found a bug? [Open a GitHub Issue](https://github.com/CaiusCodes/Outrun-Arcade-Online-XBLA-PC-Recomp/issues).
 
-1. When something goes wrong, press **F8** straight away (keep playing). This writes a marked line into the log with the stage, route and race time, saves a screenshot, and records the next frame for graphics problems.
-2. Close the game.
-3. Zip the whole `resources\logs\` folder and attach it to your report.
+1. Close the game.
+2. Attach the latest log from `resources\logs\` (the newest `outrun_NNN.log`) to your report.
+3. Describe what happened, roughly when (the time of day or how long into the session) and where (stage, menu).
 
-The log also lists your Windows version, graphics card, driver and settings, so there is no need to type them out.
+The log lists your Windows version, graphics card, driver, settings and the stages you played, so there is no need to type them out.
 
 ## Building from Source
 

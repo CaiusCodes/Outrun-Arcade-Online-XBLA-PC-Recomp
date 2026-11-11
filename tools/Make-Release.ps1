@@ -56,6 +56,9 @@ if ($LASTEXITCODE -ne 0) { throw 'launcher compile failed' }
 $binaries = Get-ChildItem $stage -Recurse -File -Include *.exe, *.dll | ForEach-Object { $_.FullName }
 & python -I (Join-Path $root 'tools\Scrub-BuildPaths.py') @binaries
 if ($LASTEXITCODE -ne 0) { throw 'a build path is left in a binary' }
+# No IP addresses in the runtime's multiplayer log lines (players post their logs).
+& python -I (Join-Path $root 'tools\Redact-NetplayLog.py') (Join-Path $res 'rexruntime.dll')
+if ($LASTEXITCODE -ne 0) { throw 'netplay log strings not found in rexruntime.dll' }
 
 $hashes = [ordered]@{}
 foreach ($n in 'outrun.exe', 'rexruntime.dll', 'rexgpu-xenos.dll', 'TracyClient.dll', 'dxcompiler.dll', 'dxil.dll', 'native_pipelines.bin') {

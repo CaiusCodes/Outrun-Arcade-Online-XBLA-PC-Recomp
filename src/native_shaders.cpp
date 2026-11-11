@@ -41,6 +41,7 @@ REXCVAR_DEFINE_BOOL(gpu_native_translate, true, "GPU",
 REXCVAR_DEFINE_BOOL(gpu_native_keep_hlsl, false, "GPU",
                     "Native renderer test: also save each translated shader's HLSL in the shader cache");
 
+namespace outrun::player_log { std::string Where(); }  // (player_log.cpp: stage or screen, for failures)
 namespace outrun::native_shaders {
 namespace {
 
@@ -296,14 +297,15 @@ struct Pool {
       // Vertex shaders' texture fetches as SampleLevel (shader_common.h's XR_SAMPLE).
       if (vertex) hlsl = "#define XR_VERTEX_SHADER 1\n" + hlsl;
     } catch (...) {
-      REXKRNL_WARN("ORNATIVE shader {:016X}: translation failed", job.hash);
+      REXKRNL_WARN("ORNATIVE shader {:016X}: translation failed ({})", job.hash, outrun::player_log::Where());
       return false;
     }
     if (REXCVAR_GET(gpu_native_keep_hlsl)) write_file(file_name(job.hash, vertex, L"hlsl"), hlsl.data(), hlsl.size());
     std::vector<uint8_t> dxil;
     std::string errors;
     if (!dxc.compile(hlsl, vertex, job.spirv, dxil, errors)) {
-      REXKRNL_WARN("ORNATIVE shader {:016X}: compile failed: {}", job.hash, errors.substr(0, 400));
+      REXKRNL_WARN("ORNATIVE shader {:016X}: compile failed ({}): {}", job.hash, outrun::player_log::Where(),
+                   errors.substr(0, 400));
       return false;
     }
     const std::string cb = std::to_string(cb_bytes(hlsl, vertex));

@@ -94,6 +94,8 @@ REXCVAR_DEFINE_BOOL(gpu_native_debug_layer, false, "GPU",
                     "Native renderer test: enable the D3D12 debug layer and log its messages");
 REXCVAR_DEFINE_INT32(gpu_native_trace_frame, 0, "GPU",
                      "Native renderer test: log every draw, clear, resolve and target change of this frame (0 = off)");
+REXCVAR_DEFINE_BOOL(gpu_native_f9_trace, false, "GPU",
+                    "Tester tool: F9 traces the next two frames into the log (off in releases)");
 REXCVAR_DEFINE_INT32(gpu_native_trace_count, 1, "GPU",
                      "Native renderer test: how many frames gpu_native_trace_frame traces, from that frame on");
 REXCVAR_DEFINE_BOOL(gpu_native_dump_textures, false, "GPU",
@@ -205,7 +207,7 @@ std::atomic<double> g_fps{0.0};  // guest frames per second (frame_stats), for S
 // The periodic statistics lines (frame, pools, video memory, queue lag, GPU
 // time): once a minute at 60 fps, so the player log stays short.
 constexpr uint64_t kStatsFrames = 3600;
-namespace outrun::player_log { void OnSwap(); }
+namespace outrun::player_log { void OnSwap(); std::string Where(); }
 
 using namespace plume;
 
@@ -4338,9 +4340,9 @@ RenderPipeline* pipeline_for(uint64_t vs_hash, RenderShader* vs, uint64_t ps_has
                           in.alignedByteOffset, int(in.format));
     REXKRNL_WARN("ORNATIVE pipeline {:016X} failed to create; its draws are skipped (vs {:016X} ps {:016X} topo {} "
                  "samples {} scene {} blend {} {}/{}/{} alpha {}/{}/{} write {:X} depth {}/{}/{} stencil {}; inputs{} "
-                 "[stride {}])",
+                 "[stride {}]; at {})",
                  key, vs_hash, ps_hash, r.topo, r.samples, r.scene, r.blend, r.src, r.dst, r.op, r.src_a, r.dst_a, r.op_a,
-                 r.write_mask, r.z_enable, r.z_write, r.z_func, r.stencil, desc, slot.stride);
+                 r.write_mask, r.z_enable, r.z_write, r.z_func, r.stencil, desc, slot.stride, outrun::player_log::Where());
     p.reset();
   }
   if (p) {
@@ -5254,7 +5256,7 @@ void present_frame() {
       }
     }
   }
-  {  // F9 with the game window in front: trace the next two frames into the log (player reports)
+  if (REXCVAR_GET(gpu_native_f9_trace)) {  // F9 with the game window in front: trace the next two frames into the log (testers)
     static bool was_down = false;
     const bool down = (GetAsyncKeyState(VK_F9) & 0x8000) != 0;
     if (down && !was_down) {
@@ -5267,6 +5269,16 @@ void present_frame() {
       }
     }
     was_down = down;
+  }
+  if (!g_vulkan && (g.frames % 60) == 0) {  // the GPU device lost (driver reset, TDR): once, with the place
+    static bool reported = false;
+    ID3D12Device8* d3d = g.device ? static_cast<D3D12Device*>(g.device.get())->d3d : nullptr;
+    const HRESULT hr = d3d && !reported ? d3d->GetDeviceRemovedReason() : S_OK;
+    if (hr != S_OK) {
+      reported = true;
+      REXKRNL_ERROR("ORNATIVE GPU device removed (reason {:08X}) at {}", uint32_t(hr), outrun::player_log::Where());
+      rex::FlushLogging();
+    }
   }
   begin_frame();
   const int32_t debug = REXCVAR_GET(gpu_native_debug_clear);

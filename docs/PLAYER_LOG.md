@@ -5,8 +5,10 @@ friend's `resources\logs\outrun_00N.log` should say which build, PC and
 settings they used and where in the game they were when something went
 wrong, without the old noise. Nothing here changes guest state or gameplay.
 
-**For testers:** press F8 the moment you see something wrong (keep driving; one
-press per problem). Afterwards zip and send the whole `resources\logs` folder.
+**For testers:** the F8 mark and F9 frame trace are off in releases. Add
+`outrun_mark_key = true` to `resources\outrun.toml`, then press F8 the moment
+you see something wrong (keep driving; one press per problem). Afterwards zip
+and send the whole `resources\logs` folder.
 
 ## What the log now contains
 
@@ -65,7 +67,8 @@ press per problem). Afterwards zip and send the whole `resources\logs` folder.
    text, so it zips to a fraction). Tracing makes that one frame slow (one
    hitch). The car's own track position is not read (no known read-only
    address); the time into the stage and the trace's eye constant place it.
-   F9 stays the renderer's two-frame trace into the log.
+   F9 is the renderer's two-frame trace into the log, also off unless
+   `gpu_native_f9_trace = true`.
 5. **Session summary** when the window closes:
    `Session summary: played m:ss, N races, N stage entries (N different: codes), fps avg x, lowest driving second y, N player marks; last: <where>`.
    The runtime hard-exits right after the window closes, so this is written
@@ -92,7 +95,7 @@ Debug lines appear with `log_level = "debug"` in outrun.toml.
 | Key | Default | Meaning |
 | --- | --- | --- |
 | `outrun_log_breadcrumbs` | true | the `Game:` lines |
-| `outrun_mark_key` | true | F8 marks |
+| `outrun_mark_key` | false | F8 marks (tester tool) |
 | `outrun_mark_screenshot` | true | PNG beside the log with each mark |
 | `outrun_mark_trace` | true | next frame traced into `_frame.txt` beside the log with each mark (Plume) |
 | `outrun_log_files` | false | every file the game opens (troubleshooting; long) |
@@ -144,3 +147,17 @@ LLLL, 3x game speed, countdown held) showed:
 - The race clock is an estimate (see above).
 - Mark screenshots use PrintWindow; exclusive fullscreen may give a black
   image on some drivers.
+
+## Release additions (11 November)
+
+Quiet lines, on by default, nothing shown to the player:
+
+- `Game: hitch N ms [while loading] at <stage, race time>`: a frame over 100 ms while driving, at most one line every 5 s (the rest counted on the next line and in the session summary).
+- `Display: windowed 1280x720 -> fullscreen 3440x1440`: display mode or window size changes, checked once a second.
+- `Controller N connected` / `disconnected`.
+- `Save: reading|writing (<where>)`, `Save: none yet`, `Save: ... failed, status X`: the save file through the same NtCreateFile wrapper.
+- `ORNATIVE GPU device removed (reason X) at <where>` (Direct3D 12) and shader/pipeline failures now name the stage or screen.
+- The session summary adds hitches over 100 ms and saves written (failures marked).
+- The header shows `log_max_files` (how many logs are kept).
+
+Multiplayer events come from the runtime ("[netplay]" and XSession lines) and the screen breadcrumbs; release builds rewrite the runtime's address-bearing log lines so no IP address is written (tools/Redact-NetplayLog.py), and log the hosting game's per-frame QoS listen once.

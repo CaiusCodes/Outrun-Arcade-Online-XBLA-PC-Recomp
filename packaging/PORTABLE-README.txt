@@ -43,9 +43,8 @@ the program files; your imported game files, saves and settings are kept. You
 can also extract a newer release ZIP over this folder.
 
 REPORTING A PROBLEM
-Press F8 the moment something looks wrong (keep playing). It writes a marked
-line in the log, a screenshot and a frame record into resources\logs. Close
-the game and send the whole resources\logs folder with your report:
+Close the game and attach the latest log from resources\logs (the newest
+outrun_NNN.log) to your report, with what happened and roughly where:
 https://github.com/CaiusCodes/Outrun-Arcade-Online-XBLA-PC-Recomp/issues
 
 FOLDERS

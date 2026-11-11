@@ -43,8 +43,8 @@ REXCVAR_DEFINE_BOOL(outrun_log_files, false, "OutRun/Diagnostics",
                     "Player log: also log every file the game opens (troubleshooting)");
 REXCVAR_DEFINE_BOOL(outrun_log_breadcrumbs, true, "OutRun/Diagnostics",
                     "Player log: log the screen, stage, route and car as they change (bug reports)");
-REXCVAR_DEFINE_BOOL(outrun_mark_key, true, "OutRun/Diagnostics",
-                    "Player log: F8 writes a PLAYER MARK line (and a screenshot beside the log) for bug reports");
+REXCVAR_DEFINE_BOOL(outrun_mark_key, false, "OutRun/Diagnostics",
+                    "Tester tool: F8 writes a PLAYER MARK line (and a screenshot beside the log) for bug reports; off in releases");
 REXCVAR_DEFINE_BOOL(outrun_mark_screenshot, true, "OutRun/Diagnostics",
                     "Player log: save a PNG screenshot beside the log with each F8 mark");
 REXCVAR_DEFINE_BOOL(outrun_mark_trace, true, "OutRun/Diagnostics",
@@ -136,6 +136,10 @@ int g_races = 0;
 std::set<std::string> g_stages_played;
 int g_stage_entries = 0;
 int g_marks = 0;
+int g_hitches = 0, g_hitches_unlogged = 0;  // frames over 100 ms while driving
+double g_last_hitch_log = 0;
+int g_saves_written = 0, g_save_failures = 0;
+std::string g_display;                     // "windowed 1280x720" (logged on change)
 
 // Frame rate: 1-second windows of Swaps.
 double g_fps = 0, g_fps_min_race = 1e9, g_window_start = 0, g_last_swap = 0, g_last_guest = 0;
@@ -278,6 +282,24 @@ void OnFile(const std::string& path) {
     if (g_in_race) EndRace("ranking");
     LogScreen("ranking");
   }
+}
+
+// The save file (savedrive:\outrunsp_save.bin), opened through the same call:
+// reads and writes with their result, so a lost save can be placed. A missing
+// save on a first start is the normal case.
+void OnSaveFile(const std::string& path, uint32_t access, uint32_t status) {
+  const bool write = (access & 0x40000006u) != 0;  // GENERIC_WRITE, FILE_WRITE_DATA or FILE_APPEND_DATA
+  std::lock_guard lock(g_mutex);
+  if (status == 0) {
+    if (write) ++g_saves_written;
+    REXLOG_INFO("Save: {} ({})", write ? "writing" : "reading", WhereLocked());
+  } else if (!write && (status == 0xC0000034u || status == 0xC000000Fu || status == 0xC000003Au)) {
+    REXLOG_INFO("Save: none yet (a new save will be made)");
+  } else {
+    ++g_save_failures;
+    REXLOG_WARN("Save: {} failed, status {:08X} ({})", write ? "writing" : "reading", status, WhereLocked());
+  }
+  (void)path;
 }
 
 // ---------------------------------------------------------------- toast
@@ -536,14 +558,14 @@ void LogHeader(rex::Runtime* runtime) {
   REXLOG_INFO("  Display:   {}, window client {}, monitor {}", Flag("fullscreen") == "true" ? "fullscreen" : "windowed",
               window, monitor);
   REXLOG_INFO("  Settings:  {}", settings);
-  REXLOG_INFO("  Present:   vsync={} frame_limit={} fsr_quality={} letterbox={} tearing={} log_level={}", opt("vsync"),
-              opt("present_frame_limit"), opt("present_fsr_quality_mode"), opt("present_letterbox"),
-              opt("outrun_present_allow_tearing"), opt("log_level"));
+  REXLOG_INFO("  Present:   vsync={} frame_limit={} fsr_quality={} letterbox={} tearing={} log_level={} log_max_files={}",
+              opt("vsync"), opt("present_frame_limit"), opt("present_fsr_quality_mode"), opt("present_letterbox"),
+              opt("outrun_present_allow_tearing"), opt("log_level"), opt("log_max_files"));
   REXLOG_INFO("  Audio:     mute={} steering_loops_off={} initial_volume={}", opt("audio_mute"),
               opt("outrun_audio_disable_steering_loops"), opt("outrun_audio_initial_volume"));
   REXLOG_INFO("  Controls:  mnk_mode={}, controllers: {}", opt("mnk_mode"), Controllers());
-  REXLOG_INFO("  Network:   private_match={} local_sessions={}; F8 marks a bug in this log", opt("net_private_match"),
-              opt("outrun_local_sessions"));
+  REXLOG_INFO("  Network:   private_match={} local_sessions={}{}", opt("net_private_match"), opt("outrun_local_sessions"),
+              REXCVAR_GET(outrun_mark_key) ? "; F8 marks a bug in this log" : "");
   (void)runtime;
 }
 
@@ -576,11 +598,31 @@ std::string GuestPath(uint8_t* base, uint32_t attributes) {
 // the path is noted, the call goes on unchanged.
 extern "C" REX_FUNC(outrun_player_log_NtCreateFile) {
   const std::string path = GuestPath(base, ctx.r5.u32);
+  const uint32_t access = ctx.r4.u32;  // (desired access, before the call)
   g_nt_create_file(ctx, base);
   if (path.empty()) return;
   if (REXCVAR_GET(outrun_log_files)) REXLOG_INFO("File: {} -> {:08X}", path, ctx.r3.u32);
   if (ctx.r3.u32 == 0) OnFile(path);
+  if (path.rfind("savedrive:", 0) == 0) OnSaveFile(path, access, ctx.r3.u32);
 }
+
+// XNetQosListen (the game's thunk sub_824752D8): a hosting game calls it
+// every frame and the runtime logs each call ("[netplay] QoS listen", ~60
+// lines a second). The first call is logged as before; later ones run with the
+// krnl log category at warning level for the length of the call.
+std::atomic<uint64_t> g_qos_calls{0};
+}  // namespace outrun::player_log
+REX_HOOK_RAW(sub_824752D8) {
+  using outrun::player_log::g_qos_calls;
+  static const std::optional<rex::LogCategoryId> krnl = rex::FindCategory("krnl");
+  spdlog::logger* logger = krnl ? rex::GetLoggerRaw(*krnl) : nullptr;
+  const bool quiet = g_qos_calls++ > 0 && logger && logger->level() <= spdlog::level::info;
+  const auto level = logger ? logger->level() : spdlog::level::info;
+  if (quiet) logger->set_level(spdlog::level::warn);
+  __imp__sub_824752D8(ctx, base);
+  if (quiet) logger->set_level(level);
+}
+namespace outrun::player_log {
 
 void Startup(rex::Runtime* runtime, rex::ui::Window* window, rex::ui::ImGuiDrawer* drawer) {
   g_window = window;
@@ -649,6 +691,33 @@ void OnSwap() {
     if (!g_first_swap) { g_first_swap = now; g_window_start = now; }
     ++g_swaps;
     ++g_window_frames;
+    // Hitches: a frame over 100 ms while driving, at most one line every 5 s
+    // (the rest are counted in the next line and the session summary).
+    if (g_last_swap && g_in_race && g_clock_running && !g_paused && g_screen == "race" && now - g_last_swap > 0.1) {
+      ++g_hitches;
+      if (now - g_last_hitch_log >= 5.0) {
+        REXLOG_INFO("Game: hitch {:.0f} ms{}{} at {}", (now - g_last_swap) * 1000.0,
+                    now - g_last_file < 1.0 ? " while loading" : "",
+                    g_hitches_unlogged ? fmt::format(" (+{} more since the last line)", g_hitches_unlogged) : std::string(),
+                    WhereLocked());
+        g_last_hitch_log = now;
+        g_hitches_unlogged = 0;
+      } else {
+        ++g_hitches_unlogged;
+      }
+    }
+    // Display mode or window size changes (menu, Alt+Enter, dragging), once a second.
+    if (g_window && (g_swaps % 60) == 0) {
+      RECT r{};
+      if (HWND h = static_cast<HWND>(g_window->GetNativeWindowHandle()); h && GetClientRect(h, &r) && r.right > 0) {
+        const std::string display =
+            fmt::format("{} {}x{}", g_window->IsFullscreen() ? "fullscreen" : "windowed", r.right, r.bottom);
+        if (display != g_display) {
+          if (!g_display.empty()) REXLOG_INFO("Display: {} -> {}", g_display, display);
+          g_display = display;
+        }
+      }
+    }
     const double guest = GuestNow();
     if (g_last_guest && g_in_race && g_clock_running && !g_paused) g_race_time += std::clamp(guest - g_last_guest, 0.0, 0.5);
     g_last_guest = guest;
@@ -692,11 +761,13 @@ void OnWindowClose() {
   std::string stages;
   for (const auto& s : g_stages_played) stages += (stages.empty() ? "" : " ") + s;
   REXLOG_INFO("Session summary: played {}, {} race{}, {} stage entr{} ({} different: {}), fps avg {:.1f}, lowest "
-              "driving second {}, {} player mark{}; last: {}",
+              "driving second {}, {} hitch{} over 100 ms, saves written {}{}{}; last: {}",
               Clock2(play), g_races, g_races == 1 ? "" : "s", g_stage_entries, g_stage_entries == 1 ? "y" : "ies",
               g_stages_played.size(), stages.empty() ? "-" : stages, avg,
-              g_fps_min_race < 1e8 ? fmt::format("{:.0f}", g_fps_min_race) : std::string("-"), g_marks,
-              g_marks == 1 ? "" : "s", WhereLocked());
+              g_fps_min_race < 1e8 ? fmt::format("{:.0f}", g_fps_min_race) : std::string("-"), g_hitches,
+              g_hitches == 1 ? "" : "es", g_saves_written,
+              g_save_failures ? fmt::format(" ({} FAILED)", g_save_failures) : std::string(),
+              g_marks ? fmt::format(", {} player mark{}", g_marks, g_marks == 1 ? "" : "s") : std::string(), WhereLocked());
   rex::FlushLogging();
 }
 
