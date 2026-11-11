@@ -38,6 +38,7 @@ bool RequestMarkTrace(const std::string& path);
 }
 #endif
 #include "pc_menu.h"
+#include "audio_loop_suppression.h"
 
 REXCVAR_DEFINE_BOOL(outrun_log_files, false, "OutRun/Diagnostics",
                     "Player log: also log every file the game opens (troubleshooting)");
@@ -561,8 +562,8 @@ void LogHeader(rex::Runtime* runtime) {
   REXLOG_INFO("  Present:   vsync={} frame_limit={} fsr_quality={} letterbox={} tearing={} log_level={} log_max_files={}",
               opt("vsync"), opt("present_frame_limit"), opt("present_fsr_quality_mode"), opt("present_letterbox"),
               opt("outrun_present_allow_tearing"), opt("log_level"), opt("log_max_files"));
-  REXLOG_INFO("  Audio:     mute={} steering_loops_off={} initial_volume={}", opt("audio_mute"),
-              opt("outrun_audio_disable_steering_loops"), opt("outrun_audio_initial_volume"));
+  REXLOG_INFO("  Audio:     mute={} steering_loops={} initial_volume={}", opt("audio_mute"),
+              outrun::audio::SteeringLoopsSetting(), opt("outrun_audio_initial_volume"));
   REXLOG_INFO("  Controls:  mnk_mode={}, controllers: {}", opt("mnk_mode"), Controllers());
   REXLOG_INFO("  Network:   private_match={} local_sessions={}{}", opt("net_private_match"), opt("outrun_local_sessions"),
               REXCVAR_GET(outrun_mark_key) ? "; F8 marks a bug in this log" : "");

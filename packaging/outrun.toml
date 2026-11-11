@@ -44,7 +44,9 @@ outrun_async_queries = true
 outrun_bulk_registers = true
 # Optional timing diagnostics stay off in clean portable packages.
 gpu_perf_stats = false
-outrun_audio_disable_steering_loops = true
+# Steering loop sounds: auto plays them as on the 360 with the native renderer
+# and blocks them with the classic Xenos renderer (where they popped); on / off force it.
+outrun_audio_steering_loops = "auto"
 outrun_audio_initial_volume = true
 
 # LAN hosting and discovery work inside Multiplayer. Empty addresses are automatic.
