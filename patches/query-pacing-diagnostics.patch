@@ -1,0 +1,67 @@
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -72,11 +72,20 @@
+     "Order asynchronous visibility results before later command-stream writes")
+     .lifecycle(rex::cvar::Lifecycle::kInitOnly);
+ 
++REXCVAR_DEFINE_BOOL(outrun_query_pacing_log, false, "OutRun/Diagnostics",
++    "Log slow GPU-frame intervals with ordered-query wait measurements")
++    .lifecycle(rex::cvar::Lifecycle::kInitOnly);
++
+ namespace rex::graphics::d3d12 {
+ // Included inside the GPU namespace. Opt-in experiment: publish real query
+ // snapshots in order after the GPU fence, without stalling command recording.
+ namespace {
+ struct OutrunAsyncQueryState {
++  bool timing = REXCVAR_GET(outrun_query_pacing_log);
++  double barrier_ms=0, barrier_max_ms=0; // Renderer thread only.
++  uint64_t barrier_calls=0;
++  std::atomic<double> worker_wait_ms{0};
++  std::chrono::steady_clock::time_point previous_frame{};
+   uint64_t running_total = 0; // Worker only.
+   std::atomic<uint64_t> published_total{0};
+   std::atomic<uint64_t> completed{0};
+@@ -93,8 +102,15 @@
+       std::weak_ptr<OutrunAsyncQueryState> weak=state;
+       outrun::query_order::Register(static_cast<const CommandProcessor*>(owner),[weak] {
+         if(auto pending=weak.lock()) {
++          const auto started=pending->timing ? std::chrono::steady_clock::now() : std::chrono::steady_clock::time_point{};
+           pending->queue.Drain();
+           pending->queue.CheckError();
++          if(pending->timing) {
++            const double elapsed=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-started).count();
++            pending->barrier_ms+=elapsed;
++            pending->barrier_max_ms=std::max(pending->barrier_max_ms,elapsed);
++            ++pending->barrier_calls;
++          }
+         }
+       });
+       REXGPU_INFO("OutRun async queries: command-stream publication barriers enabled");
+@@ -495,7 +511,10 @@
+                        readback, query_submission, scale] {
+     // The worker never touches command lists or renderer caches. Shutdown and
+     // query-ring wrap drain it before readback storage/guest memory can change.
++    const auto fence_wait_start=state->timing ? std::chrono::steady_clock::now() : std::chrono::steady_clock::time_point{};
+     outrun::WaitForQueryFence(fence.Get(), query_submission);
++    if(state->timing)state->worker_wait_ms.fetch_add(
++        std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-fence_wait_start).count());
+     for (const auto& snapshot : snapshots) {
+       auto* block = memory_->TranslatePhysical<xenos::xe_gpu_depth_sample_counts*>(snapshot.guest_addr);
+       WriteGuestOcclusionResult(block, state->running_total);
+@@ -2242,6 +2261,16 @@
+ 
+ void D3D12CommandProcessor::IssueSwap(uint32_t frontbuffer_ptr, uint32_t frontbuffer_width,
+                                       uint32_t frontbuffer_height) {
++  if(REXCVAR_GET(outrun_query_pacing_log) && REXCVAR_GET(outrun_async_queries)) {
++    auto state=OutrunAsyncQueries(this);
++    const auto now=std::chrono::steady_clock::now();
++    const double interval=state->previous_frame==std::chrono::steady_clock::time_point{} ? 0 :
++        std::chrono::duration<double,std::milli>(now-state->previous_frame).count();
++    const auto worker_ms=state->worker_wait_ms.exchange(0);
++    if(interval>25)REXGPU_INFO("[query_pacing] slow_frame_ms={:.3f} barrier_calls={} barrier_ms={:.3f} barrier_max_ms={:.3f} worker_gpu_wait_ms={:.3f}",
++        interval,state->barrier_calls,state->barrier_ms,state->barrier_max_ms,worker_ms);
++    state->previous_frame=now;state->barrier_ms=0;state->barrier_max_ms=0;state->barrier_calls=0;
++  }
+   FlushOcclusionFrameQueries();
+   if (REXCVAR_GET(gpu_perf_stats)) {
+     auto& st = g_gpu_perf;

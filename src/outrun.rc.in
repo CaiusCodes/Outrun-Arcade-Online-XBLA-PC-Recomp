@@ -1,0 +1,23 @@
+101 ICON "@CMAKE_CURRENT_SOURCE_DIR@/packaging/resources/outrun.ico"
+
+1 VERSIONINFO
+FILEVERSION @OUTRUN_VERSION_COMMAS@,0
+PRODUCTVERSION @OUTRUN_VERSION_COMMAS@,0
+FILEOS 0x40004
+FILETYPE 0x1
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904B0"
+    BEGIN
+      VALUE "FileDescription", "OutRun Online Arcade PC"
+      VALUE "FileVersion", "@OUTRUN_VERSION@.0"
+      VALUE "ProductName", "OutRun Online Arcade PC"
+      VALUE "ProductVersion", "@OUTRUN_VERSION@"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1200
+  END
+END

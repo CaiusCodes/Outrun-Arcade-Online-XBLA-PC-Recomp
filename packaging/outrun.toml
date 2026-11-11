@@ -1,0 +1,54 @@
+# OutRun Online Arcade PC defaults (copied to outrun.toml on first start).
+outrun_runtime_shortcuts = false
+fullscreen = false
+gpu_plugin = "xenos"
+gpu = "auto"
+vsync = true
+vblank_timing_log = false
+# Match the full-game content setting used by the Boom Boom Rocket port.
+license_mask = 1
+
+# Keyboard controller (a connected gamepad is also supported by the runtime).
+mnk_mode = true
+keybind_start = "Return"
+keybind_a = "Space"
+keybind_b = "Backspace"
+# The installed 0.9.0 runtime accepts one key per binding.
+keybind_right_trigger = "W"
+keybind_left_trigger = "S"
+keybind_lstick_left = "A"
+keybind_lstick_right = "D"
+keybind_lstick_up = ""
+keybind_lstick_down = ""
+keybind_lstick_press = ""
+keybind_rstick_press = ""
+keybind_x = "Q"
+keybind_y = "E"
+keybind_left_shoulder = "Z"
+keybind_right_shoulder = "C"
+
+# PC display settings (Help & Options > Settings and Graphics save them in pc-settings.toml).
+pc_settings_prototype = true
+resolution_scale = 1
+show_fps = true
+occlusion_query_enable = true
+occlusion_resolve_per_frame = false
+outrun_async_queries = true
+outrun_bulk_registers = true
+# Optional timing diagnostics stay off in clean portable packages.
+gpu_perf_stats = false
+outrun_audio_disable_steering_loops = true
+outrun_audio_initial_volume = true
+
+# LAN hosting and discovery work inside Multiplayer. Empty addresses are automatic.
+# Do not ship a development player's saved name or loopback test addresses.
+outrun_local_sessions = true
+net_private_match = true
+net_address = ""
+net_join_address = ""
+net_player_name = ""
+net_relay_server = ""
+log_level = "info"
+
+# Plume native renderer (default). Set false for the original Xenos renderer.
+gpu_native = true

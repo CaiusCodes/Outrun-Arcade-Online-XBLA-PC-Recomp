@@ -1,0 +1,13 @@
+diff --git a/src/audio/xma_context.cpp b/src/audio/xma_context.cpp
+--- a/src/audio/xma_context.cpp
++++ b/src/audio/xma_context.cpp
+@@ -408,7 +408,8 @@ void XmaContext::StoreContextMerged(const XMA_CONTEXT_DATA& data,
+   fresh.input_buffer_read_offset = data.input_buffer_read_offset;
+   fresh.error_status = data.error_status;
+   fresh.current_buffer = data.current_buffer;
+-  fresh.output_buffer_read_offset = data.output_buffer_read_offset;
++  // The guest owns this consumer position and may advance it during Decode.
++  // Preserve the freshly read value rather than restoring the old snapshot.
+ 
+   fresh.Store(context_ptr);
+ }

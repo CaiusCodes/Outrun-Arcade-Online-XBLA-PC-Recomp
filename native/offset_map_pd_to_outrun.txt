@@ -1,0 +1,50 @@
+  1920 (0x780):
+    ->   1920 (0x780) x1  e.g. D3DDevice_BeginVertices
+  6016 (0x1780):
+    ->   6016 (0x1780) x1  e.g. D3DDevice_BeginVertices
+ 10112 (0x2780):
+    ->  10112 (0x2780) x1  e.g. D3DDevice_BeginVertices
+ 10128 (0x2790):
+    no direct votes; nearest GoldenEye offsets seen: 10112->10112, 10368->10368, 10372->10372, 10376->10376
+ 10436 (0x28C4):
+    ->  10436 (0x28C4) x5  e.g. D3DDevice_Resolve, D3DDevice_SetScissorRect, D3D_ClearDraw
+ 10440 (0x28C8):
+    ->  10440 (0x28C8) x5  e.g. D3DDevice_Resolve, D3DDevice_SetScissorRect, D3D_ClearDraw
+ 10500 (0x2904):
+    ->  10500 (0x2904) x1  e.g. D3DDevice_SetRenderState_AlphaRef
+ 10548 (0x2934):
+    ->  10548 (0x2934) x29  e.g. D3DDevice_BeginVertices, D3DDevice_Resolve, D3DDevice_SetDepthStencilSurface, D3DDevice_SetRenderState_CCWStencilFail
+ 10556 (0x293C):
+    ->  10556 (0x293C) x9  e.g. D3DDevice_SetRenderState_AlphaFunc, D3DDevice_SetRenderState_AlphaTestEnable, D3DDevice_SetRenderState_AlphaToMaskEnable, D3DDevice_SetRenderState_AlphaToMaskOffsets
+ 10568 (0x2948):
+    ->  10568 (0x2948) x11  e.g. D3DDevice_SetRenderState_CullMode, D3DDevice_SetRenderState_DepthBias, D3DDevice_SetRenderState_FillMode, D3DDevice_SetRenderState_MultiSampleAntiAlias
+ 10572 (0x294C):
+    ->  10572 (0x294C) x1  e.g. D3DDevice_SetRenderState_ViewportEnable
+ 10936 (0x2AB8):
+    ->  10936 (0x2AB8) x3  e.g. D3DDevice_BeginTiling, D3DDevice_EndTiling, D3D_SetPredication
+ 10940 (0x2ABC):
+    ->  10940 (0x2ABC) x37  e.g. D3DDevice_BeginTiling, D3DDevice_BeginVertices, D3DDevice_ClearF, D3DDevice_EndTiling
+ 10941 (0x2ABD):
+    ->  10941 (0x2ABD) x19  e.g. D3DDevice_Resolve, D3DDevice_Swap, D3D_AllocateFromSecondary, D3D_CBlocker_Check
+ 10944 (0x2AC0):
+    no direct votes; nearest GoldenEye offsets seen: 10943->10943, 10942->10942, 10941->10941, 10940->10940
+ 11992 (0x2ED8):
+    ->  11824 (0x2E30) x2  e.g. D3DDevice_SetVertexDeclaration, D3D_FlushFetchConstants
+ 12024 (0x2EF8):
+    ->  11856 (0x2E50) x8  e.g. D3DDevice_SetRenderState_AlphaBlendEnable, D3DDevice_SetRenderState_BlendOpAlpha, D3DDevice_SetRenderState_DestBlendAlpha, D3DDevice_SetRenderState_SeparateAlphaBlendEnable
+ 12028 (0x2EFC):
+    ->  11860 (0x2E54) x10  e.g. D3DDevice_SetRenderState_AlphaBlendEnable, D3DDevice_SetRenderState_BlendOpAlpha, D3DDevice_SetRenderState_DestBlendAlpha, D3DDevice_SetRenderState_HiZWriteEnable
+ 12032 (0x2F00):
+    ->  11864 (0x2E58) x2  e.g. D3DDevice_SetScissorRect, D3D_ClearDraw
+ 12036 (0x2F04):
+    ->  11868 (0x2E5C) x2  e.g. D3DDevice_SetRenderTarget
+ 12052 (0x2F14):
+    ->  11884 (0x2E6C) x2  e.g. D3DDevice_SetDepthStencilSurface
+ 12612 (0x3144):
+    ->  12444 (0x309C) x2  e.g. D3DDevice_SetIndices
+ 12824 (0x3218):
+    ->  12656 (0x3170) x4  e.g. D3DDevice_BeginTiling, D3DDevice_SetScissorRect, D3D_ClearDraw, D3D_SetViewport_Worker
+ 12868 (0x3244):
+    ->  12700 (0x319C) x3  e.g. D3DDevice_SetPixelShader, D3D_FlushFetchConstants
+ 12872 (0x3248):
+    ->  12704 (0x31A0) x4  e.g. D3DDevice_BeginVertices, D3DDevice_SetVertexShader, D3D_FlushFetchConstants

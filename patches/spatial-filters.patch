@@ -1,0 +1,62 @@
+--- a/src/ui/presenter.cpp
++++ b/src/ui/presenter.cpp
+@@ -25,6 +25,9 @@
+ #include <ffx_api/ffx_api.h>
+ #include <ffx_api/ffx_upscale.h>
+ #endif
++
++REXCVAR_DEFINE_INT32(outrun_present_filter, 0, "OutRun/Graphics",
++                    "Spatial output filter: 0=Standard, 1=CAS, 2=FSR1").range(0,2);
+ 
+ REXCVAR_DEFINE_BOOL(host_present_from_non_ui_thread, true, "UI/Presenter",
+                     "Allow presentation from non-UI thread");
+@@ -264,6 +267,13 @@
+   }
+ #endif
+   config.SetAllowOverscanCutoff(REXCVAR_GET(present_allow_overscan_cutoff));
++#if defined(REX_HAS_FIDELITYFX_SDK)
++  switch (REXCVAR_GET(outrun_present_filter)) {
++    case 1: parsed_effect=GuestOutputPaintConfig::Effect::kCas; break;
++    case 2: parsed_effect=GuestOutputPaintConfig::Effect::kFsr; break;
++    default: parsed_effect=GuestOutputPaintConfig::Effect::kBilinear; break;
++  }
++#endif
+   config.SetEffect(parsed_effect);
+ #if defined(REX_HAS_FIDELITYFX_SDK)
+   config.SetCasAdditionalSharpness(float(REXCVAR_GET(present_cas_additional_sharpness)));
+@@ -276,7 +286,20 @@
+   return config;
+ }
+ 
+-}  // namespace
++ }  // namespace
++
++// Opaque UI-thread bridge avoids exposing feature-dependent config layouts to
++// the game. Caller must schedule this through the window's UI dispatcher.
++extern "C" __declspec(dllexport) bool outrun_apply_present_filter(void* value) {
++#if defined(REX_HAS_FIDELITYFX_SDK)
++  if (!value) return false;
++  static_cast<rex::ui::Presenter*>(value)->SetGuestOutputPaintConfigFromUIThread(
++      BuildGuestOutputPaintConfigFromCVar());
++  return true;
++#else
++  return false;
++#endif
++}
+ 
+ namespace rex {
+ namespace ui {
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,11 @@
+ # ReXGlue SDK - Xbox 360 Recompilation Toolkit
+ # Modern C++23 cross-platform SDK for recompiling Xbox 360 executables
+ cmake_minimum_required(VERSION 3.25)
++
++option(REXGLUE_OUTRUN_SPATIAL_FILTERS "Enable bundled spatial CAS/FSR shaders for OutRun" OFF)
++if(REXGLUE_OUTRUN_SPATIAL_FILTERS)
++    add_compile_definitions(REX_HAS_FIDELITYFX_SDK=1)
++endif()
+ 
+ project(ReXGlue
+     VERSION 0.9.0

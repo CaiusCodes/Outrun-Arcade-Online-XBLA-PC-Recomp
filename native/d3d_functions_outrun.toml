@@ -1,0 +1,290 @@
+# OutRun Online Arcade (XDK 2.0.7978, November 2008) Direct3D function names.
+# Code matches: Perfect Dark's native\tools\match_d3d.py over GoldenEye's 313 names.
+# Table entries: state_tables_pd.py over a private guest-image dump (not stored here).
+
+# Perfect Dark XBLA (title 584109C2): Direct3D functions named from GoldenEye's list
+# (goldeneye-recomp native/d3d_functions.toml, August 2007 XDK) by matching normalised
+# code against Perfect Dark's (June 2009 XDK). exact = identical body; near = difflib
+# ratio shown; "calls of X" = the same call position inside matched function X.
+# The GoldenEye confidence is kept after it. Not wired into anything.
+
+[functions]
+
+0x8229CEC8 = { name = "D3DDevice_BeginTiling" }  # behaviour 0.674; GoldenEye 821A53E8 likely, 293 vs 219 instructions
+0x822858D8 = { name = "D3DDevice_BeginVertices" }  # calls of D3DDevice_DrawVerticesUP; GoldenEye 82199DC0 certain, 296 vs 293 instructions
+0x82298178 = { name = "D3DDevice_Clear" }  # behaviour 0.862; GoldenEye 821974B8 certain, 47 vs 47 instructions
+0x82298050 = { name = "D3DDevice_ClearF" }  # behaviour 0.820; GoldenEye 82197390 likely, 73 vs 74 instructions
+0x82292278 = { name = "D3DDevice_CreateIndexBuffer" }  # near 0.977; GoldenEye 8219B8B0 likely, 43 vs 43 instructions
+0x822887A8 = { name = "D3DDevice_CreateSurface" }  # near 0.895; GoldenEye 8218BBF8 certain, 74 vs 78 instructions
+0x82288688 = { name = "D3DDevice_CreateTexture" }  # near 0.931; GoldenEye 8218BAD8 certain, 72 vs 72 instructions
+0x822921A0 = { name = "D3DDevice_CreateVertexBuffer" }  # near 0.860; GoldenEye 8219B788 likely, 50 vs 50 instructions
+0x8228AE80 = { name = "D3DDevice_CreateVertexDeclaration" }  # near 0.862; GoldenEye 8218E3C8 likely, 33 vs 32 instructions
+0x8228C558 = { name = "D3DDevice_CreateVertexShader" }  # near 0.933; GoldenEye 8218F930 certain, 60 vs 60 instructions
+0x82285D70 = { name = "D3DDevice_DrawVerticesUP" }  # near 0.833; GoldenEye 8219A270 certain, 18 vs 18 instructions
+0x8229D238 = { name = "D3DDevice_EndTiling" }  # behaviour 0.828; GoldenEye 821A5880 likely, 304 vs 302 instructions
+0x822831A0 = { name = "D3DDevice_GetRenderState_SlopeScaleDepthBias" }  # exact; GoldenEye 82193B20 certain, 7 vs 7 instructions
+0x82284790 = { name = "D3DDevice_GetSamplerState_HGradientExpBias" }  # exact; GoldenEye 82195160 certain, 6 vs 6 instructions
+0x82284100 = { name = "D3DDevice_GetSamplerState_MagFilter" }  # exact; GoldenEye 82194AE8 certain, 13 vs 13 instructions
+0x82283F58 = { name = "D3DDevice_GetSamplerState_MinFilter" }  # exact; GoldenEye 82194958 certain, 13 vs 13 instructions
+0x822848A0 = { name = "D3DDevice_GetSamplerState_PointBorderEnable" }  # exact; GoldenEye 82195270 certain, 6 vs 6 instructions
+0x822989A0 = { name = "D3DDevice_Resolve" }  # behaviour 0.719; GoldenEye 82197C48 certain, 913 vs 961 instructions
+0x822855F8 = { name = "D3DDevice_SetDepthStencilSurface" }  # calls of D3DDevice_UnsetAll; GoldenEye 82195F68 certain, 182 vs 182 instructions
+0x82284B20 = { name = "D3DDevice_SetIndices" }  # calls of D3DDevice_UnsetAll; GoldenEye 821954F8 certain, 36 vs 36 instructions
+0x8228A958 = { name = "D3DDevice_SetPixelShader" }  # calls of D3DDevice_UnsetAll; GoldenEye 8218DE38 certain, 111 vs 111 instructions
+0x82282688 = { name = "D3DDevice_SetRenderState_AlphaBlendEnable" }  # near 0.812; GoldenEye 82192FE8 certain, 32 vs 32 instructions
+0x82282B10 = { name = "D3DDevice_SetRenderState_AlphaFunc" }  # exact; GoldenEye 82193478 certain, 7 vs 7 instructions
+0x82282AB0 = { name = "D3DDevice_SetRenderState_AlphaRef" }  # near 0.923; GoldenEye 82193410 certain, 13 vs 13 instructions
+0x82282650 = { name = "D3DDevice_SetRenderState_AlphaTestEnable" }  # exact; GoldenEye 82192FB0 certain, 9 vs 9 instructions
+0x82283C08 = { name = "D3DDevice_SetRenderState_AlphaToMaskEnable" }  # exact; GoldenEye 82194600 likely, 7 vs 7 instructions
+0x82283C38 = { name = "D3DDevice_SetRenderState_AlphaToMaskOffsets" }  # exact; GoldenEye 82194630 likely, 7 vs 7 instructions
+0x822828C8 = { name = "D3DDevice_SetRenderState_BlendOpAlpha" }  # near 0.783; GoldenEye 82193228 certain, 23 vs 23 instructions
+0x82282F38 = { name = "D3DDevice_SetRenderState_CCWStencilFail" }  # exact; GoldenEye 821938C0 certain, 9 vs 9 instructions
+0x82282F08 = { name = "D3DDevice_SetRenderState_CCWStencilFunc" }  # exact; GoldenEye 82193890 certain, 7 vs 7 instructions
+0x82282FA8 = { name = "D3DDevice_SetRenderState_CCWStencilPass" }  # exact; GoldenEye 82193930 certain, 7 vs 7 instructions
+0x82282F70 = { name = "D3DDevice_SetRenderState_CCWStencilZFail" }  # exact; GoldenEye 821938F8 certain, 9 vs 9 instructions
+0x822825F0 = { name = "D3DDevice_SetRenderState_CullMode" }  # exact; GoldenEye 82192F50 certain, 7 vs 7 instructions
+0x822831C0 = { name = "D3DDevice_SetRenderState_DepthBias" }  # near 0.842; GoldenEye 82193B40 certain, 38 vs 38 instructions
+0x822829A8 = { name = "D3DDevice_SetRenderState_DestBlendAlpha" }  # near 0.783; GoldenEye 82193308 certain, 23 vs 23 instructions
+0x82283CC0 = { name = "D3DDevice_SetRenderState_DiscardBand_X" }  # exact; GoldenEye 821946C8 likely, 7 vs 7 instructions
+0x82282620 = { name = "D3DDevice_SetRenderState_FillMode" }  # exact; GoldenEye 82192F80 certain, 7 vs 7 instructions
+0x82283B78 = { name = "D3DDevice_SetRenderState_HalfPixelOffset" }  # exact; GoldenEye 82194570 likely, 9 vs 9 instructions
+0x82283DB0 = { name = "D3DDevice_SetRenderState_HiStencilEnable" }  # exact; GoldenEye 821947B8 likely, 7 vs 7 instructions
+0x82283E10 = { name = "D3DDevice_SetRenderState_HiStencilFunc" }  # exact; GoldenEye 82194818 likely, 7 vs 7 instructions
+0x82283DE0 = { name = "D3DDevice_SetRenderState_HiStencilWriteEnable" }  # exact; GoldenEye 821947E8 likely, 7 vs 7 instructions
+0x82283D48 = { name = "D3DDevice_SetRenderState_HiZWriteEnable" }  # near 0.905; GoldenEye 82194750 likely, 21 vs 21 instructions
+0x82282C40 = { name = "D3DDevice_SetRenderState_LastPixel" }  # exact; GoldenEye 821935C8 likely, 9 vs 9 instructions
+0x82283268 = { name = "D3DDevice_SetRenderState_MultiSampleAntiAlias" }  # exact; GoldenEye 82193BE8 certain, 7 vs 7 instructions
+0x82283298 = { name = "D3DDevice_SetRenderState_MultiSampleMask" }  # exact; GoldenEye 82193C18 certain, 6 vs 6 instructions
+0x82283BB0 = { name = "D3DDevice_SetRenderState_PrimitiveResetEnable" }  # exact; GoldenEye 821945A8 likely, 7 vs 7 instructions
+0x82282A18 = { name = "D3DDevice_SetRenderState_SeparateAlphaBlendEnable" }  # near 0.848; GoldenEye 82193378 certain, 33 vs 33 instructions
+0x82282938 = { name = "D3DDevice_SetRenderState_SrcBlendAlpha" }  # near 0.783; GoldenEye 82193298 certain, 23 vs 23 instructions
+0x82282E68 = { name = "D3DDevice_SetRenderState_StencilFail" }  # exact; GoldenEye 821937F0 certain, 9 vs 9 instructions
+0x82282E38 = { name = "D3DDevice_SetRenderState_StencilFunc" }  # exact; GoldenEye 821937C0 certain, 7 vs 7 instructions
+0x82282ED8 = { name = "D3DDevice_SetRenderState_StencilPass" }  # exact; GoldenEye 82193860 certain, 7 vs 7 instructions
+0x82282EA0 = { name = "D3DDevice_SetRenderState_StencilZFail" }  # exact; GoldenEye 82193828 certain, 9 vs 9 instructions
+0x82283B40 = { name = "D3DDevice_SetRenderState_TessellationMode" }  # exact; GoldenEye 82194538 certain, 9 vs 9 instructions
+0x82282E00 = { name = "D3DDevice_SetRenderState_TwoSidedStencilMode" }  # exact; GoldenEye 82193788 certain, 9 vs 9 instructions
+0x82283820 = { name = "D3DDevice_SetRenderState_ViewportEnable" }  # exact; GoldenEye 821941B8 certain, 16 vs 16 instructions
+0x822834C0 = { name = "D3DDevice_SetRenderState_Wrap0" }  # exact; GoldenEye 82193E58 certain, 8 vs 8 instructions
+0x822834E0 = { name = "D3DDevice_SetRenderState_Wrap1" }  # exact; GoldenEye 82193E78 certain, 9 vs 9 instructions
+0x82283638 = { name = "D3DDevice_SetRenderState_Wrap10" }  # exact; GoldenEye 82193FD0 certain, 9 vs 9 instructions
+0x82283660 = { name = "D3DDevice_SetRenderState_Wrap11" }  # exact; GoldenEye 82193FF8 certain, 9 vs 9 instructions
+0x82283688 = { name = "D3DDevice_SetRenderState_Wrap12" }  # exact; GoldenEye 82194020 certain, 9 vs 9 instructions
+0x822836B0 = { name = "D3DDevice_SetRenderState_Wrap13" }  # exact; GoldenEye 82194048 certain, 9 vs 9 instructions
+0x822836D8 = { name = "D3DDevice_SetRenderState_Wrap14" }  # exact; GoldenEye 82194070 certain, 9 vs 9 instructions
+0x82283700 = { name = "D3DDevice_SetRenderState_Wrap15" }  # exact; GoldenEye 82194098 certain, 7 vs 7 instructions
+0x82283508 = { name = "D3DDevice_SetRenderState_Wrap2" }  # exact; GoldenEye 82193EA0 certain, 9 vs 9 instructions
+0x82283530 = { name = "D3DDevice_SetRenderState_Wrap3" }  # exact; GoldenEye 82193EC8 certain, 9 vs 9 instructions
+0x82283558 = { name = "D3DDevice_SetRenderState_Wrap4" }  # exact; GoldenEye 82193EF0 certain, 9 vs 9 instructions
+0x82283580 = { name = "D3DDevice_SetRenderState_Wrap5" }  # exact; GoldenEye 82193F18 certain, 9 vs 9 instructions
+0x822835A8 = { name = "D3DDevice_SetRenderState_Wrap6" }  # exact; GoldenEye 82193F40 certain, 9 vs 9 instructions
+0x822835D0 = { name = "D3DDevice_SetRenderState_Wrap7" }  # exact; GoldenEye 82193F68 certain, 7 vs 7 instructions
+0x822835F0 = { name = "D3DDevice_SetRenderState_Wrap8" }  # exact; GoldenEye 82193F88 certain, 8 vs 8 instructions
+0x82283610 = { name = "D3DDevice_SetRenderState_Wrap9" }  # exact; GoldenEye 82193FA8 certain, 9 vs 9 instructions
+0x82282D88 = { name = "D3DDevice_SetRenderState_ZFunc" }  # exact; GoldenEye 82193710 certain, 9 vs 9 instructions
+0x82282D58 = { name = "D3DDevice_SetRenderState_ZWriteEnable" }  # exact; GoldenEye 821936E0 certain, 7 vs 7 instructions
+0x822852A8 = { name = "D3DDevice_SetRenderTarget" }  # calls of D3DDevice_UnsetAll; GoldenEye 82195C00 certain, 217 vs 211 instructions
+0x822848B8 = { name = "D3DDevice_SetScissorRect" }  # calls of D3D_SetViewport_Worker; GoldenEye 82195288 likely, 63 vs 62 instructions
+0x82284A00 = { name = "D3DDevice_SetStreamSource" }  # calls of D3DDevice_UnsetAll; GoldenEye 821953D8 certain, 71 vs 72 instructions
+0x822889A0 = { name = "D3DDevice_SetTexture" }  # calls of D3DDevice_UnsetAll; GoldenEye 8218BE00 certain, 95 vs 95 instructions
+0x8228AD78 = { name = "D3DDevice_SetVertexDeclaration" }  # calls of D3DDevice_UnsetAll; GoldenEye 8218E2C0 certain, 5 vs 5 instructions
+0x8228AB60 = { name = "D3DDevice_SetVertexShader" }  # calls of D3DDevice_UnsetAll; GoldenEye 8218E0F0 certain, 115 vs 115 instructions
+0x82285178 = { name = "D3DDevice_SetViewport" }  # behaviour 0.690; GoldenEye 82195AC8 certain, 31 vs 32 instructions
+0x822851F8 = { name = "D3DDevice_SetViewportF" }  # exact; GoldenEye 82195B48 likely, 8 vs 8 instructions
+0x82293A10 = { name = "D3DDevice_Swap" }  # behaviour 0.765; GoldenEye 821996F8 certain, 357 vs 387 instructions
+0x82299D48 = { name = "D3DDevice_UnsetAll" }  # near 0.882; GoldenEye 82198D58 certain, 68 vs 68 instructions
+0x82294670 = { name = "D3DQuery_Issue" }  # behaviour 0.682; GoldenEye 8219E548 certain, 162 vs 162 instructions
+0x82292128 = { name = "D3DResource_AddRef" }  # near 0.966; GoldenEye 8219B690 certain, 29 vs 29 instructions
+0x82292B80 = { name = "D3DResource_Destroy" }  # calls of D3DResource_Release; GoldenEye 8219B160 likely, 121 vs 135 instructions
+0x822930E8 = { name = "D3DResource_Release" }  # near 0.938; GoldenEye 8219B708 certain, 32 vs 32 instructions
+0x8227DC08 = { name = "D3DSurface_LockRect" }  # exact; GoldenEye 8218BAA8 guess, 6 vs 6 instructions
+0x8229A688 = { name = "D3D_AllocateFromSecondary" }  # calls of D3D_MakeSpace; GoldenEye 8219CA10 guess, 58 vs 58 instructions
+0x8229AC08 = { name = "D3D_BlockOnFence" }  # calls of D3D_MakeSpace; GoldenEye 8219D060 likely, 49 vs 51 instructions
+0x822999B8 = { name = "D3D_CBlocker_Check" }  # calls of D3D_BlockOnFence; GoldenEye 82198C28 likely, 53 vs 54 instructions
+0x822A3308 = { name = "D3D_CDevice_Init" }  # calls of Direct3D_CreateDevice; GoldenEye 821A3570 likely, 131 vs 133 instructions
+0x822A35F0 = { name = "D3D_CDevice_UnInit" }  # behaviour 0.663; GoldenEye 821A37D0 likely, 115 vs 104 instructions
+0x822979A0 = { name = "D3D_ClearDraw" }  # behaviour 0.819; GoldenEye 82196D00 guess, 420 vs 427 instructions
+0x82291348 = { name = "D3D_FlushFetchConstants" }  # calls of D3DDevice_BeginVertices; GoldenEye 821A1E78 guess, 517 vs 604 instructions
+0x82290520 = { name = "D3D_FlushFloatConstants" }  # calls of D3DDevice_BeginVertices; GoldenEye 821A10E0 guess, 87 vs 84 instructions
+0x822A7C50 = { name = "D3D_GpuHangBreak" }  # calls of D3D_CBlocker_Check; GoldenEye 821A2D50 certain, 42 vs 48 instructions
+0x8229A348 = { name = "D3D_GraphicsInterruptCallback" }  # behaviour 0.729; GoldenEye 8219C638 likely, 46 vs 37 instructions
+0x8229B8D8 = { name = "D3D_InitializeRingBuffer" }  # behaviour 0.718; GoldenEye 8219DA28 certain, 266 vs 270 instructions
+0x822A62A8 = { name = "D3D_IssueOcclusionQuery" }  # behaviour 0.712; GoldenEye 821A50C8 likely, 107 vs 115 instructions
+0x8229A770 = { name = "D3D_KickOffIndirect" }  # behaviour 0.860; GoldenEye 8219CAF8 guess, 121 vs 121 instructions
+0x8229B558 = { name = "D3D_MakeSpace" }  # near 0.913; GoldenEye 8219D6D8 certain, 63 vs 64 instructions
+0x8229B790 = { name = "D3D_ReserveRingDwords" }  # behaviour 0.857; GoldenEye 8219D8F0 certain, 26 vs 30 instructions
+0x822A3158 = { name = "D3D_SetDisplayMode" }  # near 0.929; GoldenEye 821A33E0 likely, 42 vs 42 instructions
+0x8229CD58 = { name = "D3D_SetPredication" }  # near 0.754; GoldenEye 821A5278 guess, 91 vs 92 instructions
+0x82282300 = { name = "D3D_SetSurfaceInfo" }  # calls of D3DDevice_SetScissorRect; GoldenEye 82192C70 guess, 184 vs 188 instructions
+0x82284F10 = { name = "D3D_SetViewport_Worker" }  # calls of D3DDevice_SetViewportF; GoldenEye 82195850 likely, 153 vs 150 instructions
+0x82293538 = { name = "D3D_SynchronizeToPresentationInterval_Worker" }  # behaviour 0.641; GoldenEye 82199250 likely, 106 vs 114 instructions
+0x82299F00 = { name = "Direct3D_CreateDevice" }  # near 0.906; GoldenEye 82198E68 certain, 53 vs 53 instructions
+0x8228C460 = { name = "XGRegisterVertexShader" }  # calls of D3DDevice_CreateVertexShader; GoldenEye 8218DFF8 likely, 62 vs 62 instructions
+0x8228A920 = { name = "XGSetPixelShaderHeader" }  # near 0.857; GoldenEye 8218DE00 guess, 14 vs 14 instructions
+
+# --- from D3D's render/sampler-state tables (0x824D06B0, 0x824D0B70)
+0x82282D18 = { name = "D3DDevice_SetRenderState_ZEnable" }  # table: D3DRS 40, default 0x00000001
+0x82282D50 = { name = "D3DDevice_GetRenderState_ZEnable" }  # table: D3DRS 40, default 0x00000001
+0x82282DB0 = { name = "D3DDevice_GetRenderState_ZFunc" }  # table: D3DRS 44, default 0x00000003
+0x82282D78 = { name = "D3DDevice_GetRenderState_ZWriteEnable" }  # table: D3DRS 48, default 0x00000001
+0x82282640 = { name = "D3DDevice_GetRenderState_FillMode" }  # table: D3DRS 52, default 0x00000000
+0x82282610 = { name = "D3DDevice_GetRenderState_CullMode" }  # table: D3DRS 56, default 0x00000006
+0x82282708 = { name = "D3DDevice_GetRenderState_AlphaBlendEnable" }  # table: D3DRS 60, default 0x00000000
+0x82282AA0 = { name = "D3DDevice_GetRenderState_SeparateAlphaBlendEnable" }  # table: D3DRS 64, default 0x00000000
+0x82282B40 = { name = "D3DDevice_SetRenderState_BlendFactor" }  # table: D3DRS 68, default 0xFFFFFFFF
+0x82282BD0 = { name = "D3DDevice_GetRenderState_BlendFactor" }  # table: D3DRS 68, default 0xFFFFFFFF
+0x822827A8 = { name = "D3DDevice_SetRenderState_SrcBlend" }  # table: D3DRS 72, default 0x00000001
+0x82282828 = { name = "D3DDevice_GetRenderState_SrcBlend" }  # table: D3DRS 72, default 0x00000001
+0x82282838 = { name = "D3DDevice_SetRenderState_DestBlend" }  # table: D3DRS 76, default 0x00000000
+0x822828B8 = { name = "D3DDevice_GetRenderState_DestBlend" }  # table: D3DRS 76, default 0x00000000
+0x82282718 = { name = "D3DDevice_SetRenderState_BlendOp" }  # table: D3DRS 80, default 0x00000000
+0x82282798 = { name = "D3DDevice_GetRenderState_BlendOp" }  # table: D3DRS 80, default 0x00000000
+0x82282998 = { name = "D3DDevice_GetRenderState_SrcBlendAlpha" }  # table: D3DRS 84, default 0x00000001
+0x82282A08 = { name = "D3DDevice_GetRenderState_DestBlendAlpha" }  # table: D3DRS 88, default 0x00000000
+0x82282928 = { name = "D3DDevice_GetRenderState_BlendOpAlpha" }  # table: D3DRS 92, default 0x00000000
+0x82282678 = { name = "D3DDevice_GetRenderState_AlphaTestEnable" }  # table: D3DRS 96, default 0x00000000
+0x82282AE8 = { name = "D3DDevice_GetRenderState_AlphaRef" }  # table: D3DRS 100, default 0x00000000
+0x82282B30 = { name = "D3DDevice_GetRenderState_AlphaFunc" }  # table: D3DRS 104, default 0x00000007
+0x82282DC0 = { name = "D3DDevice_SetRenderState_StencilEnable" }  # table: D3DRS 108, default 0x00000000
+0x82282DF8 = { name = "D3DDevice_GetRenderState_StencilEnable" }  # table: D3DRS 108, default 0x00000000
+0x82282E28 = { name = "D3DDevice_GetRenderState_TwoSidedStencilMode" }  # table: D3DRS 112, default 0x00000000
+0x82282E90 = { name = "D3DDevice_GetRenderState_StencilFail" }  # table: D3DRS 116, default 0x00000000
+0x82282EC8 = { name = "D3DDevice_GetRenderState_StencilZFail" }  # table: D3DRS 120, default 0x00000000
+0x82282EF8 = { name = "D3DDevice_GetRenderState_StencilPass" }  # table: D3DRS 124, default 0x00000000
+0x82282E58 = { name = "D3DDevice_GetRenderState_StencilFunc" }  # table: D3DRS 128, default 0x00000007
+0x82282FD8 = { name = "D3DDevice_SetRenderState_StencilRef" }  # table: D3DRS 132, default 0x00000000
+0x82282FF0 = { name = "D3DDevice_GetRenderState_StencilRef" }  # table: D3DRS 132, default 0x00000000
+0x82282FF8 = { name = "D3DDevice_SetRenderState_StencilMask" }  # table: D3DRS 136, default 0xFFFFFFFF
+0x82283010 = { name = "D3DDevice_GetRenderState_StencilMask" }  # table: D3DRS 136, default 0xFFFFFFFF
+0x82283018 = { name = "D3DDevice_SetRenderState_StencilWriteMask" }  # table: D3DRS 140, default 0xFFFFFFFF
+0x82283030 = { name = "D3DDevice_GetRenderState_StencilWriteMask" }  # table: D3DRS 140, default 0xFFFFFFFF
+0x82282F60 = { name = "D3DDevice_GetRenderState_CCWStencilFail" }  # table: D3DRS 144, default 0x00000000
+0x82282F98 = { name = "D3DDevice_GetRenderState_CCWStencilZFail" }  # table: D3DRS 148, default 0x00000000
+0x82282FC8 = { name = "D3DDevice_GetRenderState_CCWStencilPass" }  # table: D3DRS 152, default 0x00000000
+0x82282F28 = { name = "D3DDevice_GetRenderState_CCWStencilFunc" }  # table: D3DRS 156, default 0x00000007
+0x82283038 = { name = "D3DDevice_SetRenderState_CCWStencilRef" }  # table: D3DRS 160, default 0x00000000
+0x82283050 = { name = "D3DDevice_GetRenderState_CCWStencilRef" }  # table: D3DRS 160, default 0x00000000
+0x82283058 = { name = "D3DDevice_SetRenderState_CCWStencilMask" }  # table: D3DRS 164, default 0xFFFFFFFF
+0x82283070 = { name = "D3DDevice_GetRenderState_CCWStencilMask" }  # table: D3DRS 164, default 0xFFFFFFFF
+0x82283078 = { name = "D3DDevice_SetRenderState_CCWStencilWriteMask" }  # table: D3DRS 168, default 0xFFFFFFFF
+0x82283090 = { name = "D3DDevice_GetRenderState_CCWStencilWriteMask" }  # table: D3DRS 168, default 0xFFFFFFFF
+0x82283098 = { name = "D3DDevice_SetRenderState_ClipPlaneEnable" }  # table: D3DRS 172, default 0x00000000
+0x822830E0 = { name = "D3DDevice_GetRenderState_ClipPlaneEnable" }  # table: D3DRS 172, default 0x00000000
+0x822833C8 = { name = "D3DDevice_SetRenderState_PointSize" }  # table: D3DRS 176, default 0x3F800000
+0x82283410 = { name = "D3DDevice_GetRenderState_PointSize" }  # table: D3DRS 176, default 0x3F800000
+0x82283420 = { name = "D3DDevice_SetRenderState_PointSizeMin" }  # table: D3DRS 180, default 0x3F800000
+0x82283460 = { name = "D3DDevice_GetRenderState_PointSizeMin" }  # table: D3DRS 180, default 0x3F800000
+0x822833B8 = { name = "D3DDevice_SetRenderState_PointSpriteEnable" }  # table: D3DRS 184, default 0x00000000
+0x822833C0 = { name = "D3DDevice_GetRenderState_PointSpriteEnable" }  # table: D3DRS 184, default 0x00000000
+0x82283470 = { name = "D3DDevice_SetRenderState_PointSizeMax" }  # table: D3DRS 188, default 0x42800000
+0x822834B0 = { name = "D3DDevice_GetRenderState_PointSizeMax" }  # table: D3DRS 188, default 0x42800000
+0x82283288 = { name = "D3DDevice_GetRenderState_MultiSampleAntiAlias" }  # table: D3DRS 192, default 0x00000001
+0x822832B0 = { name = "D3DDevice_GetRenderState_MultiSampleMask" }  # table: D3DRS 196, default 0xFFFFFFFF
+0x82285168 = { name = "D3DDevice_SetRenderState_ScissorTestEnable" }  # table: D3DRS 200, default 0x00000000
+0x822830F0 = { name = "D3DDevice_GetRenderState_ScissorTestEnable" }  # table: D3DRS 200, default 0x00000000
+0x822830F8 = { name = "D3DDevice_SetRenderState_SlopeScaleDepthBias" }  # table: D3DRS 204, default 0x00000000
+0x82283258 = { name = "D3DDevice_GetRenderState_DepthBias" }  # table: D3DRS 208, default 0x00000000
+0x822832B8 = { name = "D3DDevice_SetRenderState_ColorWriteEnable" }  # table: D3DRS 212, default 0x0000000F
+0x822832F0 = { name = "D3DDevice_GetRenderState_ColorWriteEnable" }  # table: D3DRS 212, default 0x0000000F
+0x822832F8 = { name = "D3DDevice_SetRenderState_ColorWriteEnable1" }  # table: D3DRS 216, default 0x0000000F
+0x82283330 = { name = "D3DDevice_GetRenderState_ColorWriteEnable1" }  # table: D3DRS 216, default 0x0000000F
+0x82283338 = { name = "D3DDevice_SetRenderState_ColorWriteEnable2" }  # table: D3DRS 220, default 0x0000000F
+0x82283370 = { name = "D3DDevice_GetRenderState_ColorWriteEnable2" }  # table: D3DRS 220, default 0x0000000F
+0x82283378 = { name = "D3DDevice_SetRenderState_ColorWriteEnable3" }  # table: D3DRS 224, default 0x0000000F
+0x822833B0 = { name = "D3DDevice_GetRenderState_ColorWriteEnable3" }  # table: D3DRS 224, default 0x0000000F
+0x82283B68 = { name = "D3DDevice_GetRenderState_TessellationMode" }  # table: D3DRS 228, default 0x00000001
+0x82283AD0 = { name = "D3DDevice_SetRenderState_MinTessellationLevel" }  # table: D3DRS 232, default 0x3F800000
+0x82283AF8 = { name = "D3DDevice_GetRenderState_MinTessellationLevel" }  # table: D3DRS 232, default 0x3F800000
+0x82283B08 = { name = "D3DDevice_SetRenderState_MaxTessellationLevel" }  # table: D3DRS 236, default 0x3F800000
+0x82283B30 = { name = "D3DDevice_GetRenderState_MaxTessellationLevel" }  # table: D3DRS 236, default 0x3F800000
+0x82283720 = { name = "D3DDevice_GetRenderState_Wrap0" }  # table: D3DRS 240, default 0x00000000
+0x82283730 = { name = "D3DDevice_GetRenderState_Wrap1" }  # table: D3DRS 244, default 0x00000000
+0x82283740 = { name = "D3DDevice_GetRenderState_Wrap2" }  # table: D3DRS 248, default 0x00000000
+0x82283750 = { name = "D3DDevice_GetRenderState_Wrap3" }  # table: D3DRS 252, default 0x00000000
+0x82283760 = { name = "D3DDevice_GetRenderState_Wrap4" }  # table: D3DRS 256, default 0x00000000
+0x82283770 = { name = "D3DDevice_GetRenderState_Wrap5" }  # table: D3DRS 260, default 0x00000000
+0x82283780 = { name = "D3DDevice_GetRenderState_Wrap6" }  # table: D3DRS 264, default 0x00000000
+0x82283790 = { name = "D3DDevice_GetRenderState_Wrap7" }  # table: D3DRS 268, default 0x00000000
+0x822837A0 = { name = "D3DDevice_GetRenderState_Wrap8" }  # table: D3DRS 272, default 0x00000000
+0x822837B0 = { name = "D3DDevice_GetRenderState_Wrap9" }  # table: D3DRS 276, default 0x00000000
+0x822837C0 = { name = "D3DDevice_GetRenderState_Wrap10" }  # table: D3DRS 280, default 0x00000000
+0x822837D0 = { name = "D3DDevice_GetRenderState_Wrap11" }  # table: D3DRS 284, default 0x00000000
+0x822837E0 = { name = "D3DDevice_GetRenderState_Wrap12" }  # table: D3DRS 288, default 0x00000000
+0x822837F0 = { name = "D3DDevice_GetRenderState_Wrap13" }  # table: D3DRS 292, default 0x00000000
+0x82283800 = { name = "D3DDevice_GetRenderState_Wrap14" }  # table: D3DRS 296, default 0x00000000
+0x82283810 = { name = "D3DDevice_GetRenderState_Wrap15" }  # table: D3DRS 300, default 0x00000000
+0x82283860 = { name = "D3DDevice_GetRenderState_ViewportEnable" }  # table: D3DRS 304, default 0x00000001
+0x82283870 = { name = "D3DDevice_SetRenderState_HighPrecisionBlendEnable" }  # table: D3DRS 308, default 0x00000000
+0x82283900 = { name = "D3DDevice_GetRenderState_HighPrecisionBlendEnable" }  # table: D3DRS 308, default 0x00000000
+0x82283908 = { name = "D3DDevice_SetRenderState_HighPrecisionBlendEnable1" }  # table: D3DRS 312, default 0x00000000
+0x82283998 = { name = "D3DDevice_GetRenderState_HighPrecisionBlendEnable1" }  # table: D3DRS 312, default 0x00000000
+0x822839A0 = { name = "D3DDevice_SetRenderState_HighPrecisionBlendEnable2" }  # table: D3DRS 316, default 0x00000000
+0x82283A30 = { name = "D3DDevice_GetRenderState_HighPrecisionBlendEnable2" }  # table: D3DRS 316, default 0x00000000
+0x82283A38 = { name = "D3DDevice_SetRenderState_HighPrecisionBlendEnable3" }  # table: D3DRS 320, default 0x00000000
+0x82283AC8 = { name = "D3DDevice_GetRenderState_HighPrecisionBlendEnable3" }  # table: D3DRS 320, default 0x00000000
+0x82283BA0 = { name = "D3DDevice_GetRenderState_HalfPixelOffset" }  # table: D3DRS 324, default 0x00000000
+0x82283BD0 = { name = "D3DDevice_GetRenderState_PrimitiveResetEnable" }  # table: D3DRS 328, default 0x00000000
+0x82283BE0 = { name = "D3DDevice_SetRenderState_PrimitiveResetIndex" }  # table: D3DRS 332, default 0x0000FFFF
+0x82283C00 = { name = "D3DDevice_GetRenderState_PrimitiveResetIndex" }  # table: D3DRS 332, default 0x0000FFFF
+0x82283C28 = { name = "D3DDevice_GetRenderState_AlphaToMaskEnable" }  # table: D3DRS 336, default 0x00000000
+0x82283C58 = { name = "D3DDevice_GetRenderState_AlphaToMaskOffsets" }  # table: D3DRS 340, default 0x00000087
+0x82283C60 = { name = "D3DDevice_SetRenderState_GuardBand_X" }  # table: D3DRS 344, default 0x40000000
+0x82283C88 = { name = "D3DDevice_GetRenderState_GuardBand_X" }  # table: D3DRS 344, default 0x40000000
+0x82283C90 = { name = "D3DDevice_SetRenderState_GuardBand_Y" }  # table: D3DRS 348, default 0x40000000
+0x82283CB8 = { name = "D3DDevice_GetRenderState_GuardBand_Y" }  # table: D3DRS 348, default 0x40000000
+0x82283CE0 = { name = "D3DDevice_GetRenderState_DiscardBand_X" }  # table: D3DRS 352, default 0x3F800000
+0x82283CE8 = { name = "D3DDevice_SetRenderState_DiscardBand_Y" }  # table: D3DRS 356, default 0x3F800000
+0x82283D10 = { name = "D3DDevice_GetRenderState_DiscardBand_Y" }  # table: D3DRS 356, default 0x3F800000
+0x82283DD0 = { name = "D3DDevice_GetRenderState_HiStencilEnable" }  # table: D3DRS 360, default 0x00000000
+0x82283E00 = { name = "D3DDevice_GetRenderState_HiStencilWriteEnable" }  # table: D3DRS 364, default 0x00000000
+0x82283E30 = { name = "D3DDevice_GetRenderState_HiStencilFunc" }  # table: D3DRS 368, default 0x00000000
+0x82283E40 = { name = "D3DDevice_SetRenderState_HiStencilRef" }  # table: D3DRS 372, default 0x00000000
+0x82283E58 = { name = "D3DDevice_GetRenderState_HiStencilRef" }  # table: D3DRS 372, default 0x00000000
+0x82283E60 = { name = "D3DDevice_SetRenderState_PresentInterval" }  # table: D3DRS 376, default 0x00000000
+0x82283E68 = { name = "D3DDevice_GetRenderState_PresentInterval" }  # table: D3DRS 376, default 0x00000000
+0x82283E70 = { name = "D3DDevice_SetRenderState_PresentImmediateThreshold" }  # table: D3DRS 380, default 0x00000000
+0x82283E80 = { name = "D3DDevice_GetRenderState_PresentImmediateThreshold" }  # table: D3DRS 380, default 0x00000000
+0x82283D18 = { name = "D3DDevice_SetRenderState_HiZEnable" }  # table: D3DRS 384, default 0x00000002
+0x82283D38 = { name = "D3DDevice_GetRenderState_HiZEnable" }  # table: D3DRS 384, default 0x00000002
+0x82283DA0 = { name = "D3DDevice_GetRenderState_HiZWriteEnable" }  # table: D3DRS 388, default 0x00000002
+0x82282C68 = { name = "D3DDevice_GetRenderState_LastPixel" }  # table: D3DRS 392, default 0x00000001
+0x82282C78 = { name = "D3DDevice_SetRenderState_LineWidth" }  # table: D3DRS 396, default 0x3F800000
+0x82282CB8 = { name = "D3DDevice_GetRenderState_LineWidth" }  # table: D3DRS 396, default 0x3F800000
+0x82282CE8 = { name = "D3DDevice_SetRenderState_Buffer2Frames" }  # table: D3DRS 400, default 0x00000001
+0x82282D08 = { name = "D3DDevice_GetRenderState_Buffer2Frames" }  # table: D3DRS 400, default 0x00000001
+0x82284608 = { name = "D3DDevice_SetSamplerState_AddressU" }  # table: D3DSAMP 0, default 0x0
+0x82284640 = { name = "D3DDevice_GetSamplerState_AddressU" }  # table: D3DSAMP 0, default 0x0
+0x82284658 = { name = "D3DDevice_SetSamplerState_AddressV" }  # table: D3DSAMP 4, default 0x0
+0x82284690 = { name = "D3DDevice_GetSamplerState_AddressV" }  # table: D3DSAMP 4, default 0x0
+0x822846A8 = { name = "D3DDevice_SetSamplerState_AddressW" }  # table: D3DSAMP 8, default 0x0
+0x822846E0 = { name = "D3DDevice_GetSamplerState_AddressW" }  # table: D3DSAMP 8, default 0x0
+0x82284598 = { name = "D3DDevice_SetSamplerState_BorderColor" }  # table: D3DSAMP 12, default 0x0
+0x822845E0 = { name = "D3DDevice_GetSamplerState_BorderColor" }  # table: D3DSAMP 12, default 0x0
+0x82284038 = { name = "D3DDevice_SetSamplerState_MagFilter" }  # table: D3DSAMP 16, default 0x0
+0x82283E90 = { name = "D3DDevice_SetSamplerState_MinFilter" }  # table: D3DSAMP 20, default 0x0
+0x822841D8 = { name = "D3DDevice_SetSamplerState_MipFilter" }  # table: D3DSAMP 24, default 0x2
+0x82284218 = { name = "D3DDevice_GetSamplerState_MipFilter" }  # table: D3DSAMP 24, default 0x2
+0x822843F8 = { name = "D3DDevice_SetSamplerState_MipMapLodBias" }  # table: D3DSAMP 28, default 0x0
+0x82284458 = { name = "D3DDevice_GetSamplerState_MipMapLodBias" }  # table: D3DSAMP 28, default 0x0
+0x82284498 = { name = "D3DDevice_SetSamplerState_MaxMipLevel" }  # table: D3DSAMP 32, default 0x0
+0x82284508 = { name = "D3DDevice_GetSamplerState_MaxMipLevel" }  # table: D3DSAMP 32, default 0x0
+0x822842D8 = { name = "D3DDevice_SetSamplerState_MaxAnisotropy" }  # table: D3DSAMP 36, default 0x1
+0x82284340 = { name = "D3DDevice_GetSamplerState_MaxAnisotropy" }  # table: D3DSAMP 36, default 0x1
+0x82284138 = { name = "D3DDevice_SetSamplerState_MagFilterZ" }  # table: D3DSAMP 40, default 0x0
+0x822841C8 = { name = "D3DDevice_GetSamplerState_MagFilterZ" }  # table: D3DSAMP 40, default 0x0
+0x82283F90 = { name = "D3DDevice_SetSamplerState_MinFilterZ" }  # table: D3DSAMP 44, default 0x0
+0x82284028 = { name = "D3DDevice_GetSamplerState_MinFilterZ" }  # table: D3DSAMP 44, default 0x0
+0x82284230 = { name = "D3DDevice_SetSamplerState_SeparateZFilterEnable" }  # table: D3DSAMP 48, default 0x0
+0x822842C8 = { name = "D3DDevice_GetSamplerState_SeparateZFilterEnable" }  # table: D3DSAMP 48, default 0x0
+0x82284518 = { name = "D3DDevice_SetSamplerState_MinMipLevel" }  # table: D3DSAMP 52, default 0xD
+0x82284588 = { name = "D3DDevice_GetSamplerState_MinMipLevel" }  # table: D3DSAMP 52, default 0xD
+0x822846F8 = { name = "D3DDevice_SetSamplerState_TrilinearThreshold" }  # table: D3DSAMP 56, default 0x0
+0x82284738 = { name = "D3DDevice_GetSamplerState_TrilinearThreshold" }  # table: D3DSAMP 56, default 0x0
+0x82284350 = { name = "D3DDevice_SetSamplerState_AnisotropyBias" }  # table: D3DSAMP 60, default 0x0
+0x822843B0 = { name = "D3DDevice_GetSamplerState_AnisotropyBias" }  # table: D3DSAMP 60, default 0x0
+0x82284750 = { name = "D3DDevice_SetSamplerState_HGradientExpBias" }  # table: D3DSAMP 64, default 0x0
+0x822847A8 = { name = "D3DDevice_SetSamplerState_VGradientExpBias" }  # table: D3DSAMP 68, default 0x0
+0x822847E8 = { name = "D3DDevice_GetSamplerState_VGradientExpBias" }  # table: D3DSAMP 68, default 0x0
+0x82284800 = { name = "D3DDevice_SetSamplerState_WhiteBorderColorW" }  # table: D3DSAMP 72, default 0x0
+0x82284840 = { name = "D3DDevice_GetSamplerState_WhiteBorderColorW" }  # table: D3DSAMP 72, default 0x0
+0x82284858 = { name = "D3DDevice_SetSamplerState_PointBorderEnable" }  # table: D3DSAMP 76, default 0x1

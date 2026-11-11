@@ -1,0 +1,123 @@
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -1,3 +1,4 @@
++#include <rex/graphics/renderer_query_barrier.h>
+ #include "renderer_work_queue.h"
+ #include <stdexcept>
+ #include <map>
+@@ -66,6 +67,10 @@
+     "Experimental nonblocking publication of real GPU query results")
+     .lifecycle(rex::cvar::Lifecycle::kInitOnly);
+ 
++REXCVAR_DEFINE_BOOL(outrun_ordered_async_queries, false, "OutRun",
++    "Order asynchronous visibility results before later command-stream writes")
++    .lifecycle(rex::cvar::Lifecycle::kInitOnly);
++
+ namespace rex::graphics::d3d12 {
+ // Included inside the GPU namespace. Opt-in experiment: publish real query
+ // snapshots in order after the GPU fence, without stalling command recording.
+@@ -81,10 +86,23 @@
+ std::shared_ptr<OutrunAsyncQueryState> OutrunAsyncQueries(const D3D12CommandProcessor* owner) {
+   std::lock_guard lock(outrun_async_queries_mutex);
+   auto& state = outrun_async_queries[owner];
+-  if (!state) state = std::make_shared<OutrunAsyncQueryState>();
++  if (!state) {
++    state = std::make_shared<OutrunAsyncQueryState>();
++    if (REXCVAR_GET(outrun_ordered_async_queries)) {
++      std::weak_ptr<OutrunAsyncQueryState> weak=state;
++      outrun::query_order::Register(static_cast<const CommandProcessor*>(owner),[weak] {
++        if(auto pending=weak.lock()) {
++          pending->queue.Drain();
++          pending->queue.CheckError();
++        }
++      });
++      REXGPU_INFO("OutRun async queries: command-stream publication barriers enabled");
++    }
++  }
+   return state;
+ }
+ void OutrunDrainAsyncQueries(const D3D12CommandProcessor* owner, bool forget) {
++  if(forget)outrun::query_order::Forget(static_cast<const CommandProcessor*>(owner));
+   std::shared_ptr<OutrunAsyncQueryState> state;
+   {
+     std::lock_guard lock(outrun_async_queries_mutex);
+@@ -288,6 +306,7 @@
+ 
+ bool D3D12CommandProcessor::ExecutePacketType3_EVENT_WRITE_ZPD(memory::RingBuffer* reader,
+                                                                uint32_t packet, uint32_t count) {
++  outrun::query_order::BeforeGuestWrite(static_cast<const CommandProcessor*>(this));
+   ++g_gpu_perf.zpd_events;
+   if (!REXCVAR_GET(occlusion_query_enable) || !occlusion_query_resources_available_) {
+     ++g_gpu_perf.zpd_fake;
+--- a/src/graphics/command_processor.cpp
++++ b/src/graphics/command_processor.cpp
+@@ -1,3 +1,4 @@
++#include <rex/graphics/renderer_query_barrier.h>
+ #include <rex/graphics/frame_timing_log.h>
+ /**
+  ******************************************************************************
+@@ -1238,6 +1239,7 @@
+ 
+ bool CommandProcessor::ExecutePacketType3_REG_TO_MEM(memory::RingBuffer* reader, uint32_t packet,
+                                                      uint32_t count) {
++  outrun::query_order::BeforeGuestWrite(this);
+   // Copy Register to Memory (?)
+   // Count is 2, assuming a Register Addr and a Memory Addr.
+ 
+@@ -1257,6 +1259,7 @@
+ 
+ bool CommandProcessor::ExecutePacketType3_MEM_WRITE(memory::RingBuffer* reader, uint32_t packet,
+                                                     uint32_t count) {
++  outrun::query_order::BeforeGuestWrite(this);
+   uint32_t write_addr = reader->ReadAndSwap<uint32_t>();
+   for (uint32_t i = 0; i < count - 1; i++) {
+     uint32_t write_data = reader->ReadAndSwap<uint32_t>();
+@@ -1274,6 +1277,7 @@
+ 
+ bool CommandProcessor::ExecutePacketType3_COND_WRITE(memory::RingBuffer* reader, uint32_t packet,
+                                                      uint32_t count) {
++  outrun::query_order::BeforeGuestWrite(this);
+   // conditional write to memory or register
+   uint32_t wait_info = reader->ReadAndSwap<uint32_t>();
+   uint32_t poll_reg_addr = reader->ReadAndSwap<uint32_t>();
+@@ -1355,6 +1359,7 @@
+ 
+ bool CommandProcessor::ExecutePacketType3_EVENT_WRITE_SHD(memory::RingBuffer* reader,
+                                                           uint32_t packet, uint32_t count) {
++  outrun::query_order::BeforeGuestWrite(this);
+   // generate a VS|PS_done event
+   uint32_t initiator = reader->ReadAndSwap<uint32_t>();
+   uint32_t address = reader->ReadAndSwap<uint32_t>();
+--- /dev/null
++++ b/include/rex/graphics/renderer_query_barrier.h
+@@ -0,0 +1,30 @@
++#pragma once
++#include <functional>
++#include <map>
++#include <mutex>
++
++namespace outrun::query_order {
++// Shared within the GPU plugin, without changing the SDK's class/vtable ABI.
++// Only opt-in D3D12 processors register. Other backends have no callback.
++inline std::mutex mutex;
++inline std::map<const void*,std::function<void()>> callbacks;
++inline void Register(const void* owner,std::function<void()> callback) {
++  std::lock_guard lock(mutex);
++  callbacks[owner]=std::move(callback);
++}
++inline void Forget(const void* owner) {
++  std::lock_guard lock(mutex);
++  callbacks.erase(owner);
++}
++inline void BeforeGuestWrite(const void* owner) {
++  std::function<void()> callback;
++  {
++    std::lock_guard lock(mutex);
++    auto it=callbacks.find(owner);
++    if(it!=callbacks.end())callback=it->second;
++  }
++  // No registry lock while waiting for GPU work. Failure must prevent the
++  // later command from falsely acknowledging completion.
++  if(callback)callback();
++}
++}

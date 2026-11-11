@@ -1,0 +1,49 @@
+--- a/src/ui/d3d12/d3d12_presenter.cpp
++++ b/src/ui/d3d12/d3d12_presenter.cpp
+@@ -11,6 +11,7 @@
+  */
+ 
+ #include <algorithm>
++#include <chrono>
+ #include <climits>
+ #include <cmath>
+ #include <memory>
+@@ -33,6 +34,12 @@
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_allow_variable_refresh_rate_and_tearing, true, "UI/D3D12",
+                     "Allow variable refresh rate and tearing");
++
++// Display-only experiment: never alter the guest vsync clock or WAIT_REG_MEM.
++REXCVAR_DEFINE_BOOL(outrun_present_allow_tearing, false, "OutRun/Graphics",
++                   "Allow low-latency host presentation independently of guest timing");
++REXCVAR_DEFINE_BOOL(outrun_present_timing_log, false, "OutRun/Diagnostics",
++                   "Log slow host Present calls");
+ 
+ namespace rex::ui::d3d12 {
+ 
+@@ -1156,9 +1163,23 @@
+   // fullscreen is ever used in, the allow tearing flag must not be passed in
+   // fullscreen, but DXGI fullscreen is largely unneeded with the flip
+   // presentation model used in Direct3D 12).
++  const bool allow_tearing = paint_context_.swap_chain_allows_tearing &&
++      (REXCVAR_GET(outrun_present_allow_tearing) || rex::cvar::GetFlagByName("vsync") != "true");
++  const bool log_present = REXCVAR_GET(outrun_present_timing_log);
++  const auto present_start = log_present ? std::chrono::steady_clock::now() :
++                                          std::chrono::steady_clock::time_point{};
+   HRESULT present_result = paint_context_.swap_chain->Present(
+-      0, DXGI_PRESENT_RESTART |
+-             (paint_context_.swap_chain_allows_tearing && rex::cvar::GetFlagByName("vsync") != "true" ? DXGI_PRESENT_ALLOW_TEARING : 0));
++      0, DXGI_PRESENT_RESTART | (allow_tearing ? DXGI_PRESENT_ALLOW_TEARING : 0));
++  if (log_present) {
++    const double ms = std::chrono::duration<double, std::milli>(
++        std::chrono::steady_clock::now()-present_start).count();
++    static bool first = true;
++    if (first || ms > 2.0) {
++      REXLOG_INFO("[present_timing] cpu_ms={:.3f} allow_tearing={} result={}",
++                  ms, allow_tearing, static_cast<int32_t>(present_result));
++      first = false;
++    }
++  }
+   if (SUCCEEDED(present_result)) { static outrun::timing::Stream timing; timing.Tick("host_present"); }
+   // Even if presentation has failed, work might have been enqueued anyway
+   // internally before the failure according to Jesse Natalie from the DirectX

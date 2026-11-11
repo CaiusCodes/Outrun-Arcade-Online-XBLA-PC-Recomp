@@ -1,0 +1,323 @@
+D3D block 0x8227D000-0x822A8000; 796 functions in it; game code calls 321 of them
+  822889A0 D3DDevice_SetTexture                               87 calls from 42 functions
+  822930E8 D3DResource_Release                                49 calls from 23 functions
+  82282D58 D3DDevice_SetRenderState_ZWriteEnable              46 calls from 17 functions
+  82282688 D3DDevice_SetRenderState_AlphaBlendEnable          44 calls from 19 functions
+  82282650 D3DDevice_SetRenderState_AlphaTestEnable           43 calls from 19 functions
+  822825F0 D3DDevice_SetRenderState_CullMode                  41 calls from 17 functions
+  82283820 D3DDevice_SetRenderState_ViewportEnable            40 calls from 14 functions
+  82282AB0 D3DDevice_SetRenderState_AlphaRef                  37 calls from 13 functions
+  82282D88 D3DDevice_SetRenderState_ZFunc                     34 calls from 10 functions
+  82285D70 D3DDevice_DrawVerticesUP                           32 calls from 27 functions
+  82282ED8 D3DDevice_SetRenderState_StencilPass               31 calls from 9 functions
+  82282E38 D3DDevice_SetRenderState_StencilFunc               30 calls from 9 functions
+  82282B10 D3DDevice_SetRenderState_AlphaFunc                 29 calls from 9 functions
+  8228A958 D3DDevice_SetPixelShader                           29 calls from 19 functions
+  82283B78 D3DDevice_SetRenderState_HalfPixelOffset           28 calls from 8 functions
+  82282620 D3DDevice_SetRenderState_FillMode                  28 calls from 8 functions
+  82282A18 D3DDevice_SetRenderState_SeparateAlphaBlendEnable   28 calls from 8 functions
+  822834C0 D3DDevice_SetRenderState_Wrap0                     28 calls from 8 functions
+  82282938 D3DDevice_SetRenderState_SrcBlendAlpha             27 calls from 7 functions
+  822829A8 D3DDevice_SetRenderState_DestBlendAlpha            27 calls from 7 functions
+  822828C8 D3DDevice_SetRenderState_BlendOpAlpha              27 calls from 7 functions
+  82282E00 D3DDevice_SetRenderState_TwoSidedStencilMode       27 calls from 7 functions
+  82282E68 D3DDevice_SetRenderState_StencilFail               27 calls from 7 functions
+  82282EA0 D3DDevice_SetRenderState_StencilZFail              27 calls from 7 functions
+  82282F38 D3DDevice_SetRenderState_CCWStencilFail            27 calls from 7 functions
+  82282F70 D3DDevice_SetRenderState_CCWStencilZFail           27 calls from 7 functions
+  82282FA8 D3DDevice_SetRenderState_CCWStencilPass            27 calls from 7 functions
+  82282F08 D3DDevice_SetRenderState_CCWStencilFunc            27 calls from 7 functions
+  82283268 D3DDevice_SetRenderState_MultiSampleAntiAlias      27 calls from 7 functions
+  82283298 D3DDevice_SetRenderState_MultiSampleMask           27 calls from 7 functions
+  822831C0 D3DDevice_SetRenderState_DepthBias                 27 calls from 7 functions
+  82283B40 D3DDevice_SetRenderState_TessellationMode          27 calls from 7 functions
+  822834E0 D3DDevice_SetRenderState_Wrap1                     27 calls from 7 functions
+  82283508 D3DDevice_SetRenderState_Wrap2                     27 calls from 7 functions
+  82283530 D3DDevice_SetRenderState_Wrap3                     27 calls from 7 functions
+  82283558 D3DDevice_SetRenderState_Wrap4                     27 calls from 7 functions
+  82283580 D3DDevice_SetRenderState_Wrap5                     27 calls from 7 functions
+  822835A8 D3DDevice_SetRenderState_Wrap6                     27 calls from 7 functions
+  822835D0 D3DDevice_SetRenderState_Wrap7                     27 calls from 7 functions
+  822835F0 D3DDevice_SetRenderState_Wrap8                     27 calls from 7 functions
+  82283610 D3DDevice_SetRenderState_Wrap9                     27 calls from 7 functions
+  82283638 D3DDevice_SetRenderState_Wrap10                    27 calls from 7 functions
+  82283660 D3DDevice_SetRenderState_Wrap11                    27 calls from 7 functions
+  82283688 D3DDevice_SetRenderState_Wrap12                    27 calls from 7 functions
+  822836B0 D3DDevice_SetRenderState_Wrap13                    27 calls from 7 functions
+  822836D8 D3DDevice_SetRenderState_Wrap14                    27 calls from 7 functions
+  82283700 D3DDevice_SetRenderState_Wrap15                    27 calls from 7 functions
+  82283BB0 D3DDevice_SetRenderState_PrimitiveResetEnable      27 calls from 7 functions
+  82283C08 D3DDevice_SetRenderState_AlphaToMaskEnable         27 calls from 7 functions
+  82283C38 D3DDevice_SetRenderState_AlphaToMaskOffsets        27 calls from 7 functions
+  82283CC0 D3DDevice_SetRenderState_DiscardBand_X             27 calls from 7 functions
+  82283DB0 D3DDevice_SetRenderState_HiStencilEnable           27 calls from 7 functions
+  82283DE0 D3DDevice_SetRenderState_HiStencilWriteEnable      27 calls from 7 functions
+  82283E10 D3DDevice_SetRenderState_HiStencilFunc             27 calls from 7 functions
+  82283D48 D3DDevice_SetRenderState_HiZWriteEnable            27 calls from 7 functions
+  82282C40 D3DDevice_SetRenderState_LastPixel                 27 calls from 7 functions
+  8228AB60 D3DDevice_SetVertexShader                          26 calls from 11 functions
+  822855F8 D3DDevice_SetDepthStencilSurface                   26 calls from 17 functions
+  82284A00 D3DDevice_SetStreamSource                          18 calls from 10 functions
+  82285178 D3DDevice_SetViewport                              17 calls from 15 functions
+  8228AD78 D3DDevice_SetVertexDeclaration                     13 calls from 9 functions
+  822887A8 D3DDevice_CreateSurface                            12 calls from 4 functions
+  8228C558 D3DDevice_CreateVertexShader                       11 calls from 8 functions
+  822989A0 D3DDevice_Resolve                                  11 calls from 11 functions
+  82288688 D3DDevice_CreateTexture                            10 calls from 6 functions
+  82298178 D3DDevice_Clear                                    10 calls from 10 functions
+  82284B20 D3DDevice_SetIndices                                8 calls from 7 functions
+  82284100 D3DDevice_GetSamplerState_MagFilter                 6 calls from 6 functions
+  82283F58 D3DDevice_GetSamplerState_MinFilter                 5 calls from 5 functions
+  8228AE80 D3DDevice_CreateVertexDeclaration                   5 calls from 5 functions
+  8227DC08 D3DSurface_LockRect                                 4 calls from 4 functions
+  822921A0 D3DDevice_CreateVertexBuffer                        3 calls from 3 functions
+  82294670 D3DQuery_Issue                                      2 calls from 1 functions
+  8229CD58 D3D_SetPredication                                  2 calls from 1 functions
+  8229CEC8 D3DDevice_BeginTiling                               2 calls from 1 functions
+  82299F00 Direct3D_CreateDevice                               1 calls from 1 functions
+  8229B8D8 D3D_InitializeRingBuffer                            1 calls from 1 functions
+  82293A10 D3DDevice_Swap                                      1 calls from 1 functions
+  822848B8 D3DDevice_SetScissorRect                            1 calls from 1 functions
+  82292278 D3DDevice_CreateIndexBuffer                         1 calls from 1 functions
+  8229D238 D3DDevice_EndTiling                                 1 calls from 1 functions
+Unnamed but called by the game: 240
+  822A7D88 ?  161 calls from 105 functions, 48 instructions, imports -, pm4 -, calls -
+  822A7D10 ?   52 calls from 35 functions, 30 instructions, imports -, pm4 -, calls -
+  82282D18 ?   48 calls from 20 functions, 14 instructions, imports -, pm4 -, calls -
+  822A7F30 ?   44 calls from 38 functions, 31 instructions, imports -, pm4 -, calls -
+  822832B8 ?   40 calls from 15 functions, 14 instructions, imports -, pm4 -, calls -
+  822827A8 ?   35 calls from 13 functions, 31 instructions, imports -, pm4 -, calls -
+  82282838 ?   35 calls from 13 functions, 31 instructions, imports -, pm4 -, calls -
+  82282DC0 ?   34 calls from 10 functions, 14 instructions, imports -, pm4 -, calls -
+  82282B40 ?   31 calls from 9 functions, 36 instructions, imports -, pm4 -, calls -
+  82282718 ?   30 calls from 10 functions, 31 instructions, imports -, pm4 -, calls -
+  8227D650 ?   29 calls from 23 functions, 1 instructions, imports -, pm4 -, calls 8227E6A0
+  8227DB70 ?   28 calls from 20 functions, 38 instructions, imports -, pm4 -, calls 8227D650,8227D658
+  82282FD8 ?   28 calls from 8 functions, 5 instructions, imports -, pm4 -, calls -
+  82282FF8 ?   28 calls from 8 functions, 5 instructions, imports -, pm4 -, calls -
+  82283098 ?   28 calls from 8 functions, 17 instructions, imports -, pm4 -, calls -
+  82283018 ?   27 calls from 7 functions, 5 instructions, imports -, pm4 -, calls -
+  82283038 ?   27 calls from 7 functions, 5 instructions, imports -, pm4 -, calls -
+  82283058 ?   27 calls from 7 functions, 5 instructions, imports -, pm4 -, calls -
+  82283078 ?   27 calls from 7 functions, 5 instructions, imports -, pm4 -, calls -
+  822833C8 ?   27 calls from 7 functions, 18 instructions, imports -, pm4 -, calls -
+  82283420 ?   27 calls from 7 functions, 16 instructions, imports -, pm4 -, calls -
+  822833B8 ?   27 calls from 7 functions, 2 instructions, imports -, pm4 -, calls -
+  82283470 ?   27 calls from 7 functions, 16 instructions, imports -, pm4 -, calls -
+  82285168 ?   27 calls from 7 functions, 3 instructions, imports -, pm4 -, calls D3DDevice_SetScissorRect
+  822830F8 ?   27 calls from 7 functions, 41 instructions, imports -, pm4 -, calls -
+  822832F8 ?   27 calls from 7 functions, 14 instructions, imports -, pm4 -, calls -
+  82283338 ?   27 calls from 7 functions, 14 instructions, imports -, pm4 -, calls -
+  82283378 ?   27 calls from 7 functions, 14 instructions, imports -, pm4 -, calls -
+  82283AD0 ?   27 calls from 7 functions, 9 instructions, imports -, pm4 -, calls -
+  82283B08 ?   27 calls from 7 functions, 9 instructions, imports -, pm4 -, calls -
+  82283870 ?   27 calls from 7 functions, 36 instructions, imports -, pm4 -, calls -
+  82283908 ?   27 calls from 7 functions, 36 instructions, imports -, pm4 -, calls -
+  822839A0 ?   27 calls from 7 functions, 36 instructions, imports -, pm4 -, calls -
+  82283A38 ?   27 calls from 7 functions, 36 instructions, imports -, pm4 -, calls -
+  82283BE0 ?   27 calls from 7 functions, 7 instructions, imports -, pm4 -, calls -
+  82283C60 ?   27 calls from 7 functions, 9 instructions, imports -, pm4 -, calls -
+  82283C90 ?   27 calls from 7 functions, 9 instructions, imports -, pm4 -, calls -
+  82283CE8 ?   27 calls from 7 functions, 9 instructions, imports -, pm4 -, calls -
+  82283E40 ?   27 calls from 7 functions, 5 instructions, imports -, pm4 -, calls -
+  82283E60 ?   27 calls from 7 functions, 2 instructions, imports -, pm4 -, calls -
+  82283E70 ?   27 calls from 7 functions, 4 instructions, imports -, pm4 -, calls -
+  82283D18 ?   27 calls from 7 functions, 7 instructions, imports -, pm4 -, calls -
+  82282C78 ?   27 calls from 7 functions, 15 instructions, imports -, pm4 -, calls -
+  82282CE8 ?   27 calls from 7 functions, 8 instructions, imports -, pm4 -, calls -
+  822858D0 ?   25 calls from 18 functions, 1 instructions, imports -, pm4 -, calls D3DDevice_SetRenderTarget
+  8228F8C0 ?   21 calls from 9 functions, 17 instructions, imports -, pm4 -, calls 8228D128,8228F5D8
+  82284038 ?   20 calls from 15 functions, 50 instructions, imports -, pm4 -, calls -
+  8228BE68 ?   20 calls from 7 functions, 12 instructions, imports -, pm4 -, calls -
+  82283E90 ?   19 calls from 14 functions, 50 instructions, imports -, pm4 -, calls -
+  82284640 ?   19 calls from 16 functions, 5 instructions, imports -, pm4 -, calls -
+  8227E668 ?   19 calls from 17 functions, 13 instructions, imports RtlNtStatusToDosError, pm4 -, calls -
+  82282090 ?   18 calls from 12 functions, 3 instructions, imports -, pm4 -, calls -
+  82288510 ?   17 calls from 15 functions, 1 instructions, imports -, pm4 -, calls 82287848
+  8227E5B8 ?   15 calls from 14 functions, 1 instructions, imports -, pm4 -, calls 8227E650
+  82284690 ?   14 calls from 12 functions, 5 instructions, imports -, pm4 -, calls -
+  8227DC20 ?   14 calls from 12 functions, 10 instructions, imports XMsgCancelIORequest, pm4 -, calls -
+  8227D8F0 ?   13 calls from 10 functions, 1 instructions, imports XamUserGetSigninState, pm4 -, calls -
+  8227E6A0 ?   13 calls from 13 functions, 8 instructions, imports -, pm4 -, calls -
+  8228C370 ?   12 calls from 8 functions, 60 instructions, imports -, pm4 -, calls 820E2DC8,820E2ED0,824B1960,824C1078,XGSetPixelShaderHeader
+  822A7FB0 ?   12 calls from 8 functions, 44 instructions, imports -, pm4 -, calls -
+  822843F8 ?   10 calls from 5 functions, 23 instructions, imports -, pm4 -, calls -
+  8227D848 ?   10 calls from 5 functions, 2 instructions, imports -, pm4 -, calls 8227D7B8
+  8228C648 ?    9 calls from 1 functions, 19 instructions, imports -, pm4 -, calls 82288B70
+  82293168 ?    9 calls from 8 functions, 20 instructions, imports -, pm4 -, calls 82292DA0
+  82292268 ?    9 calls from 8 functions, 4 instructions, imports -, pm4 -, calls 82291EC0
+  82284C38 ?    8 calls from 8 functions, 15 instructions, imports -, pm4 -, calls D3DResource_AddRef
+  8227DC48 ?    8 calls from 7 functions, 2 instructions, imports XamNotifyCreateListener, pm4 -, calls -
+  8227D060 ?    8 calls from 7 functions, 13 instructions, imports KeQueryPerformanceFrequency, pm4 -, calls -
+  82284498 ?    8 calls from 3 functions, 27 instructions, imports -, pm4 -, calls -
+  822842D8 ?    8 calls from 3 functions, 26 instructions, imports -, pm4 -, calls -
+  8228F720 ?    8 calls from 4 functions, 5 instructions, imports -, pm4 -, calls 8228F528
+  82284BF0 ?    7 calls from 7 functions, 17 instructions, imports -, pm4 -, calls D3DResource_AddRef
+  822849B0 ?    7 calls from 7 functions, 20 instructions, imports -, pm4 -, calls -
+  82284138 ?    7 calls from 2 functions, 35 instructions, imports -, pm4 -, calls -
+  82283F90 ?    7 calls from 2 functions, 37 instructions, imports -, pm4 -, calls -
+  82284230 ?    7 calls from 2 functions, 37 instructions, imports -, pm4 -, calls -
+  82284518 ?    7 calls from 2 functions, 27 instructions, imports -, pm4 -, calls -
+  82284350 ?    7 calls from 2 functions, 23 instructions, imports -, pm4 -, calls -
+  82288B20 ?    6 calls from 6 functions, 19 instructions, imports -, pm4 -, calls D3DResource_AddRef
+  8229B720 ?    6 calls from 3 functions, 2 instructions, imports -, pm4 -, calls 8229B690
+  8229AF58 ?    6 calls from 3 functions, 24 instructions, imports KeGetCurrentProcessType, pm4 -, calls D3D_BlockOnFence
+  822888E0 ?    6 calls from 6 functions, 38 instructions, imports -, pm4 -, calls 82287848
+  8227D640 ?    6 calls from 4 functions, 3 instructions, imports -, pm4 -, calls 8227E958
+  8227D3C0 ?    6 calls from 4 functions, 9 instructions, imports ExTerminateThread, pm4 -, calls 8227E880
+  8227D8E0 ?    6 calls from 1 functions, 2 instructions, imports -, pm4 -, calls 8227D850
+  8228A5C0 ?    6 calls from 5 functions, 54 instructions, imports -, pm4 -, calls -
+  8227D658 ?    6 calls from 6 functions, 2 instructions, imports -, pm4 -, calls 8227E9C8
+  822814B8 ?    6 calls from 6 functions, 159 instructions, imports KeBugCheckEx,KeGetCurrentProcessType,NtFreeVirtualMemory,RtlEnterCriticalSection,RtlLeaveCriticalSection, pm4 -, calls 8227F3C8,8227F7D0,822802D8,8228175C
+  82284218 ?    5 calls from 5 functions, 5 instructions, imports -, pm4 -, calls -
+  82282708 ?    5 calls from 5 functions, 3 instructions, imports -, pm4 -, calls -
+  82282AE8 ?    5 calls from 5 functions, 10 instructions, imports -, pm4 -, calls -
+  822832F0 ?    5 calls from 5 functions, 2 instructions, imports -, pm4 -, calls -
+  82282678 ?    5 calls from 5 functions, 3 instructions, imports -, pm4 -, calls -
+  82282D78 ?    5 calls from 5 functions, 3 instructions, imports -, pm4 -, calls -
+  8227D730 ?    5 calls from 4 functions, 2 instructions, imports -, pm4 -, calls 8227E6C0
+  8228F6C0 ?    5 calls from 5 functions, 1 instructions, imports -, pm4 -, calls 8228F058
+  8228F038 ?    5 calls from 3 functions, 5 instructions, imports -, pm4 -, calls 8228E6C0
+  8228C160 ?    5 calls from 5 functions, 2 instructions, imports -, pm4 -, calls 8228BEC8
+  8228BE50 ?    5 calls from 1 functions, 6 instructions, imports -, pm4 -, calls -
+  82291E30 ?    4 calls from 4 functions, 35 instructions, imports -, pm4 -, calls -
+  8227D298 ?    4 calls from 3 functions, 73 instructions, imports NtWaitForSingleObjectEx,NtWriteFile, pm4 -, calls 8227E668
+  822846E0 ?    4 calls from 3 functions, 5 instructions, imports -, pm4 -, calls -
+  8227D8F8 ?    4 calls from 3 functions, 36 instructions, imports XamGetSystemVersion,XamUserCheckPrivilege,XamUserGetSigninState, pm4 -, calls -
+  8227D128 ?    4 calls from 4 functions, 92 instructions, imports -, pm4 -, calls 8227E5B8,8227E650,8227E668
+  8228A8D0 ?    4 calls from 4 functions, 20 instructions, imports -, pm4 -, calls -
+  82289EE0 ?    4 calls from 4 functions, 90 instructions, imports -, pm4 -, calls 822899F0,82289B80
+  8228F6C8 ?    4 calls from 4 functions, 1 instructions, imports -, pm4 -, calls 8228F0B0
+  8228BE08 ?    4 calls from 4 functions, 5 instructions, imports -, pm4 -, calls 8228B270
+  8228BE98 ?    4 calls from 4 functions, 5 instructions, imports -, pm4 -, calls 8228B4D0
+  8228F740 ?    4 calls from 4 functions, 1 instructions, imports -, pm4 -, calls 8228F668
+  8228F748 ?    4 calls from 4 functions, 1 instructions, imports -, pm4 -, calls 8228F300
+  82280BF0 ?    4 calls from 4 functions, 531 instructions, imports KeBugCheckEx,KeGetCurrentProcessType,NtAllocateVirtualMemory,RtlEnterCriticalSection,RtlLeaveCriticalSection,RtlRaiseException, pm4 -, calls 8227F7D0,82280098,82281464,824B18C0
+  8227FE88 ?    4 calls from 4 functions, 42 instructions, imports KeBugCheckEx,KeGetCurrentProcessType, pm4 -, calls -
+  82286760 ?    3 calls from 3 functions, 275 instructions, imports -, pm4 DRAW_INDX,EVENT_WRITE,EVENT_WRITE_EXT, calls 8228FDF0,82290188,82290248,822903C8,8229B000,D3D_FlushFetchConstants,D3D_FlushFloatConstants,D3D_MakeSpace
+  8227DE18 ?    3 calls from 2 functions, 3 instructions, imports XamInputGetState, pm4 -, calls -
+  82282610 ?    3 calls from 3 functions, 3 instructions, imports -, pm4 -, calls -
+  8227D3E8 ?    3 calls from 2 functions, 32 instructions, imports KeSetBasePriorityThread,ObDereferenceObject,ObReferenceObjectByHandle, pm4 -, calls 8227E7C0
+  82282828 ?    3 calls from 3 functions, 3 instructions, imports -, pm4 -, calls -
+  822828B8 ?    3 calls from 3 functions, 3 instructions, imports -, pm4 -, calls -
+  822931B8 ?    3 calls from 3 functions, 18 instructions, imports -, pm4 -, calls 82292DA0
+  82292328 ?    3 calls from 3 functions, 3 instructions, imports -, pm4 -, calls 82291EC0
+  8227DC50 ?    3 calls from 2 functions, 18 instructions, imports XamUserGetSigninInfo, pm4 -, calls -
+  8227DF30 ?    3 calls from 2 functions, 1 instructions, imports XamShowSigninUI, pm4 -, calls -
+  8228A770 ?    3 calls from 3 functions, 23 instructions, imports -, pm4 -, calls -
+  8228A830 ?    3 calls from 3 functions, 19 instructions, imports -, pm4 -, calls -
+  8228A7D0 ?    3 calls from 3 functions, 23 instructions, imports -, pm4 -, calls -
+  8228A880 ?    3 calls from 3 functions, 19 instructions, imports -, pm4 -, calls -
+  8228A698 ?    3 calls from 3 functions, 54 instructions, imports -, pm4 -, calls -
+  822899A8 ?    3 calls from 2 functions, 8 instructions, imports -, pm4 -, calls -
+  8228F050 ?    3 calls from 3 functions, 1 instructions, imports -, pm4 -, calls 8228EE98
+  8228D710 ?    3 calls from 3 functions, 31 instructions, imports -, pm4 -, calls -
+  8228BE20 ?    3 calls from 3 functions, 5 instructions, imports -, pm4 -, calls 8228B3E0
+  8228F708 ?    3 calls from 3 functions, 5 instructions, imports -, pm4 -, calls 8228F4A0
+  8228F6F0 ?    3 calls from 3 functions, 5 instructions, imports -, pm4 -, calls 8228F438
+  8228F6D8 ?    3 calls from 3 functions, 5 instructions, imports -, pm4 -, calls 8228F3D8
+  8228BE38 ?    3 calls from 3 functions, 5 instructions, imports -, pm4 -, calls -
+  8228F8A8 ?    3 calls from 3 functions, 5 instructions, imports -, pm4 -, calls 8228F798
+  822899C8 ?    3 calls from 3 functions, 7 instructions, imports -, pm4 -, calls -
+  8228F020 ?    3 calls from 3 functions, 5 instructions, imports -, pm4 -, calls 8228CBC0
+  8228F738 ?    3 calls from 3 functions, 1 instructions, imports -, pm4 -, calls 8228F198
+  8228BDC8 ?    3 calls from 2 functions, 10 instructions, imports -, pm4 -, calls -
+  8228F6D0 ?    3 calls from 3 functions, 1 instructions, imports -, pm4 -, calls 8228F130
+  8228E420 ?    3 calls from 3 functions, 19 instructions, imports -, pm4 -, calls 820E2DC8,8228E138
+  8228C318 ?    2 calls from 1 functions, 22 instructions, imports -, pm4 -, calls 824B1960,824C1078
+  8228AF00 ?    2 calls from 1 functions, 32 instructions, imports -, pm4 -, calls 824B1960
+  8227DE10 ?    2 calls from 2 functions, 1 instructions, imports XamInputGetCapabilities, pm4 -, calls -
+  82284458 ?    2 calls from 2 functions, 16 instructions, imports -, pm4 -, calls -
+  8228AF80 ?    2 calls from 1 functions, 58 instructions, imports -, pm4 -, calls 8228A308,D3D_MakeSpace
+  82283860 ?    2 calls from 2 functions, 3 instructions, imports -, pm4 -, calls -
+  82282BD0 ?    2 calls from 2 functions, 28 instructions, imports -, pm4 -, calls -
+  82282D50 ?    2 calls from 2 functions, 2 instructions, imports -, pm4 -, calls -
+  82288518 ?    2 calls from 2 functions, 46 instructions, imports -, pm4 -, calls 820E2DC8,82287948,D3DResource_AddRef
+  82294020 ?    2 calls from 2 functions, 2 instructions, imports -, pm4 -, calls -
+  82296DC8 ?    2 calls from 1 functions, 58 instructions, imports -, pm4 -, calls 820E2DC8,82294548,822951A0
+  8227D098 ?    2 calls from 2 functions, 35 instructions, imports ExGetXConfigSetting,XGetGameRegion, pm4 -, calls -
+  822951A0 ?    2 calls from 1 functions, 91 instructions, imports -, pm4 -, calls 820E2ED0,82295110
+  82299CB0 ?    2 calls from 2 functions, 38 instructions, imports -, pm4 EVENT_WRITE, calls D3D_MakeSpace
+  8227D4C0 ?    2 calls from 1 functions, 44 instructions, imports KeSetAffinityThread,ObDereferenceObject,ObReferenceObjectByHandle, pm4 -, calls 8227E7C0
+  8227D600 ?    2 calls from 2 functions, 15 instructions, imports NtResumeThread, pm4 -, calls 8227E668
+  8227D468 ?    2 calls from 2 functions, 15 instructions, imports NtSuspendThread, pm4 -, calls 8227E7C0
+  8227D988 ?    2 calls from 1 functions, 54 instructions, imports XMsgStartIORequest, pm4 -, calls 8227E6A0
+  8227DF68 ?    2 calls from 2 functions, 39 instructions, imports NtCreateEvent, pm4 -, calls 8227E650,8227E668,8227EA30
+  8227E0B0 ?    2 calls from 2 functions, 1 instructions, imports -, pm4 -, calls 824B0CC8
+  8227DD50 ?    2 calls from 2 functions, 31 instructions, imports -, pm4 -, calls -
+  82286370 ?    2 calls from 2 functions, 251 instructions, imports -, pm4 DRAW_INDX,EVENT_WRITE,EVENT_WRITE_EXT, calls 8228FDF0,82290188,82290248,822903C8,8229B000,D3D_FlushFetchConstants,D3D_FlushFloatConstants,D3D_MakeSpace
+  822941F0 ?    2 calls from 2 functions, 5 instructions, imports -, pm4 -, calls 824B1960
+  822999A0 ?    2 calls from 2 functions, 5 instructions, imports -, pm4 -, calls -
+  822A7E48 ?    2 calls from 2 functions, 58 instructions, imports -, pm4 -, calls -
+  8228BDF0 ?    2 calls from 2 functions, 5 instructions, imports -, pm4 -, calls 8228B200
+  822899E8 ?    2 calls from 2 functions, 1 instructions, imports -, pm4 -, calls 82289930
+  8228F908 ?    2 calls from 2 functions, 1 instructions, imports -, pm4 -, calls 8228F750
+  8228BEB0 ?    2 calls from 1 functions, 5 instructions, imports -, pm4 -, calls 8228B5A8
+  8227D4A8 ?    2 calls from 2 functions, 5 instructions, imports -, pm4 -, calls -
+  8227D570 ?    2 calls from 2 functions, 36 instructions, imports -, pm4 -, calls -
+  8227EA30 ?    2 calls from 2 functions, 22 instructions, imports RtlInitAnsiString, pm4 -, calls -
+  8227DF38 ?    2 calls from 2 functions, 1 instructions, imports XamShowKeyboardUI, pm4 -, calls -
+  822862D0 ?    1 calls from 1 functions, 40 instructions, imports -, pm4 -, calls 82285DB8,824B1960
+  82291CB8 ?    1 calls from 1 functions, 94 instructions, imports -, pm4 -, calls 8228F910,8228FA38,82290670,82290E20,824B1960
+  822845E0 ?    1 calls from 1 functions, 9 instructions, imports -, pm4 -, calls -
+  82295310 ?    1 calls from 1 functions, 239 instructions, imports -, pm4 -, calls 82294220,824B18C0,D3D_MakeSpace
+  822948F8 ?    1 calls from 1 functions, 28 instructions, imports -, pm4 -, calls D3D_MakeSpace
+  82293A08 ?    1 calls from 1 functions, 2 instructions, imports -, pm4 -, calls D3D_SynchronizeToPresentationInterval_Worker
+  82284C78 ?    1 calls from 1 functions, 52 instructions, imports KeGetCurrentProcessType, pm4 -, calls 8229C400,824B1960,824C1078
+  82282DB0 ?    1 calls from 1 functions, 3 instructions, imports -, pm4 -, calls -
+  8227D010 ?    1 calls from 1 functions, 19 instructions, imports FscSetCacheElementCount, pm4 -, calls 8227E7C0
+  82282798 ?    1 calls from 1 functions, 3 instructions, imports -, pm4 -, calls -
+  822833C0 ?    1 calls from 1 functions, 2 instructions, imports -, pm4 -, calls -
+  82283410 ?    1 calls from 1 functions, 4 instructions, imports -, pm4 -, calls -
+  822885D0 ?    1 calls from 1 functions, 45 instructions, imports -, pm4 -, calls 820E2DC8,82287948,D3DResource_AddRef
+  82288978 ?    1 calls from 1 functions, 9 instructions, imports -, pm4 -, calls 82287F08
+  82286CE8 ?    1 calls from 1 functions, 6 instructions, imports -, pm4 -, calls 82291EC0
+  8227D738 ?    1 calls from 1 functions, 31 instructions, imports XMsgStartIORequest, pm4 -, calls 8227E6A0
+  8227D7B8 ?    1 calls from 1 functions, 35 instructions, imports XMsgStartIORequest, pm4 -, calls 8227E6A0
+  8227DD30 ?    1 calls from 1 functions, 1 instructions, imports XamContentGetLicenseMask, pm4 -, calls -
+  8227DE28 ?    1 calls from 1 functions, 50 instructions, imports XamInputGetCapabilities,XamInputSetState, pm4 -, calls -
+  8227DAC0 ?    1 calls from 1 functions, 24 instructions, imports XamUserCreateStatsEnumerator, pm4 -, calls 8227EAA8
+  8227DA60 ?    1 calls from 1 functions, 24 instructions, imports XamUserCreateStatsEnumerator, pm4 -, calls 8227EAA8
+  8227DEF0 ?    1 calls from 1 functions, 1 instructions, imports KeQuerySystemTime, pm4 -, calls -
+  8227DEF8 ?    1 calls from 1 functions, 14 instructions, imports XamShowCustomPlayerListUI, pm4 -, calls -
+  8227DD40 ?    1 calls from 1 functions, 1 instructions, imports XamContentGetDeviceState, pm4 -, calls -
+  8227DB20 ?    1 calls from 1 functions, 20 instructions, imports XamUserGetXUID, pm4 -, calls -
+  8227D8E8 ?    1 calls from 1 functions, 1 instructions, imports XamUserGetName, pm4 -, calls -
+  8227DDD0 ?    1 calls from 1 functions, 15 instructions, imports -, pm4 -, calls 8227DC98
+  8227E008 ?    1 calls from 1 functions, 42 instructions, imports -, pm4 -, calls 8227D658,8227E5B8,8227E668
+  8227DD20 ?    1 calls from 1 functions, 1 instructions, imports XamContentDelete, pm4 -, calls -
+  8227DD38 ?    1 calls from 1 functions, 1 instructions, imports XamContentCreateEnumerator, pm4 -, calls -
+  8227DF60 ?    1 calls from 1 functions, 1 instructions, imports XamShowDeviceSelectorUI, pm4 -, calls -
+  8227DD28 ?    1 calls from 1 functions, 1 instructions, imports XamContentClose, pm4 -, calls -
+  8227DD48 ?    1 calls from 1 functions, 1 instructions, imports XamContentGetDeviceData, pm4 -, calls -
+  8228AD30 ?    1 calls from 1 functions, 18 instructions, imports -, pm4 -, calls D3DResource_AddRef
+  8228AB18 ?    1 calls from 1 functions, 18 instructions, imports -, pm4 -, calls D3DResource_AddRef
+  8227E5C0 ?    1 calls from 1 functions, 17 instructions, imports -, pm4 -, calls 82280BF0,82282090
+  8227E608 ?    1 calls from 1 functions, 17 instructions, imports -, pm4 -, calls 822814B8,82282090
+  8227E750 ?    1 calls from 1 functions, 27 instructions, imports -, pm4 -, calls 8227E668
+  8228B070 ?    1 calls from 1 functions, 4 instructions, imports -, pm4 -, calls 824C1078
+  82299C58 ?    1 calls from 1 functions, 21 instructions, imports -, pm4 -, calls 820E2ED0,D3D_CDevice_UnInit
+  82294208 ?    1 calls from 1 functions, 5 instructions, imports -, pm4 -, calls -
+  82294510 ?    1 calls from 1 functions, 14 instructions, imports -, pm4 -, calls -
+  82284BB0 ?    1 calls from 1 functions, 15 instructions, imports -, pm4 -, calls D3DResource_AddRef
+  822944E8 ?    1 calls from 1 functions, 9 instructions, imports -, pm4 -, calls -
+  822942D8 ?    1 calls from 1 functions, 131 instructions, imports -, pm4 -, calls 82294028,82294168,82294288
+  82286D70 ?    1 calls from 1 functions, 38 instructions, imports -, pm4 -, calls -
+  82287F98 ?    1 calls from 1 functions, 189 instructions, imports -, pm4 -, calls 82286E08,82286FB0
+  82288500 ?    1 calls from 1 functions, 4 instructions, imports -, pm4 -, calls -
+  82287948 ?    1 calls from 1 functions, 313 instructions, imports -, pm4 -, calls 82286BB0,82286D70,82286E90,82287320,82291E30
+  8228B068 ?    1 calls from 1 functions, 1 instructions, imports -, pm4 -, calls 824C1078
+  8228D790 ?    1 calls from 1 functions, 5 instructions, imports -, pm4 -, calls 8228D128
+  8227EAA8 ?    1 calls from 1 functions, 29 instructions, imports XamGetExecutionId, pm4 -, calls -
+  8227E650 ?    1 calls from 1 functions, 6 instructions, imports -, pm4 -, calls -
+  8227E958 ?    1 calls from 1 functions, 28 instructions, imports ExCreateThread, pm4 -, calls 8227E668
+  8227D660 ?    1 calls from 1 functions, 38 instructions, imports NtCreateSemaphore, pm4 -, calls 8227E5B8,8227E7C0,8227EA30
+  8227D6F8 ?    1 calls from 1 functions, 14 instructions, imports NtReleaseSemaphore, pm4 -, calls 8227E7C0
+  8227E9C8 ?    1 calls from 1 functions, 25 instructions, imports NtWaitForSingleObjectEx, pm4 -, calls 8227E668,8227EA88
+  8227E8E8 ?    1 calls from 1 functions, 27 instructions, imports RtlEnterCriticalSection,RtlLeaveCriticalSection, pm4 -, calls -
+  822817B0 ?    1 calls from 1 functions, 513 instructions, imports KeBugCheckEx,KeGetCurrentProcessType,NtFreeVirtualMemory,RtlCompareMemoryUlong,RtlEnterCriticalSection,RtlRaiseException, pm4 -, calls 8227F7D0,8227F908,82280BF0,822814B8,82282018,824AEBA0,824B18C0
+  82282128 ?    1 calls from 1 functions, 117 instructions, imports -, pm4 -, calls 8227E5B8
+  8227DF48 ?    1 calls from 1 functions, 2 instructions, imports XamShowAchievementsUI, pm4 -, calls -
+  8227DF40 ?    1 calls from 1 functions, 2 instructions, imports XamShowGamerCardUIForXUID, pm4 -, calls -
+  8227EB20 ?    1 calls from 1 functions, 35 instructions, imports XamLoaderLaunchTitle, pm4 -, calls -
+  8227DF50 ?    1 calls from 1 functions, 4 instructions, imports XamShowMarketplaceUI, pm4 -, calls -

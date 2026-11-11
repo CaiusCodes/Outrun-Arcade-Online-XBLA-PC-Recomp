@@ -1,0 +1,89 @@
+diff --git a/plume_d3d12.cpp b/plume_d3d12.cpp
+index dcae4e3..8e04e04 100644
+--- a/plume_d3d12.cpp
++++ b/plume_d3d12.cpp
+@@ -250,6 +250,10 @@ namespace plume {
+         if (dxgiFormat == DXGI_FORMAT_R24G8_TYPELESS) {
+             return DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+         }
++        if (dxgiFormat == DXGI_FORMAT_R32_TYPELESS) {
++            // Depth target that is also sampled (created typeless).
++            return DXGI_FORMAT_R32_FLOAT;
++        }
+         return dxgiFormat;
+     }
+ 
+@@ -262,6 +266,9 @@ namespace plume {
+         if (dxgiFormat == DXGI_FORMAT_R24G8_TYPELESS) {
+             return DXGI_FORMAT_D24_UNORM_S8_UINT;
+         }
++        if (dxgiFormat == DXGI_FORMAT_R32_TYPELESS) {
++            return DXGI_FORMAT_D32_FLOAT;
++        }
+         return dxgiFormat;
+     }
+ 
+diff --git a/plume_vulkan.cpp b/plume_vulkan.cpp
+index 11abda8..a0bdb81 100644
+--- a/plume_vulkan.cpp
++++ b/plume_vulkan.cpp
+@@ -6,7 +6,10 @@
+ //
+ 
+ #define VMA_IMPLEMENTATION
+-#define VOLK_IMPLEMENTATION 
++#ifndef PLUME_EXTERNAL_VOLK
++// (An application that already links volk sets PLUME_EXTERNAL_VOLK and shares it.)
++#define VOLK_IMPLEMENTATION
++#endif
+ 
+ #include "plume_vulkan.h"
+ 
+@@ -93,6 +96,11 @@ namespace plume {
+         VK_GOOGLE_DISPLAY_TIMING_EXTENSION_NAME,
+         // Vulkan spec requires this to be enabled if supported by the driver.
+         VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME,
++#   if defined(_WIN64)
++        // Images shared with another Vulkan device on the same GPU (an
++        // application's presenter): imported from a Win32 handle.
++        VK_KHR_EXTERNAL_MEMORY_WIN32_EXTENSION_NAME,
++#   endif
+     };
+ 
+     // Common functions.
+@@ -1634,6 +1642,10 @@ namespace plume {
+         dynamicStates.clear();
+         dynamicStates.emplace_back(VK_DYNAMIC_STATE_VIEWPORT);
+         dynamicStates.emplace_back(VK_DYNAMIC_STATE_SCISSOR);
++        // Set with each draw by the application, as Direct3D 12 does with
++        // OMSetStencilRef / OMSetBlendFactor (outside the pipeline).
++        dynamicStates.emplace_back(VK_DYNAMIC_STATE_STENCIL_REFERENCE);
++        dynamicStates.emplace_back(VK_DYNAMIC_STATE_BLEND_CONSTANTS);
+ 
+         if (desc.dynamicDepthBiasEnabled) {
+             dynamicStates.emplace_back(VK_DYNAMIC_STATE_DEPTH_BIAS);
+@@ -3504,6 +3516,10 @@ namespace plume {
+ 
+     void VulkanCommandList::endActiveRenderPass() {
+         if (activeRenderPass != VK_NULL_HANDLE) {
++            if (beforeEndRenderPass != nullptr) {
++                beforeEndRenderPass(this);
++            }
++
+             vkCmdEndRenderPass(vk);
+             activeRenderPass = VK_NULL_HANDLE;
+         }
+diff --git a/plume_vulkan.h b/plume_vulkan.h
+index 589d0f9..0991cb8 100644
+--- a/plume_vulkan.h
++++ b/plume_vulkan.h
+@@ -302,6 +302,9 @@ namespace plume {
+         const VulkanPipelineLayout *activeGraphicsPipelineLayout = nullptr;
+         const VulkanPipelineLayout *activeRaytracingPipelineLayout = nullptr;
+         VkRenderPass activeRenderPass = VK_NULL_HANDLE;
++        // Called just before a render pass instance ends (an application's
++        // queries that must end inside it).
++        void (*beforeEndRenderPass)(VulkanCommandList *commandList) = nullptr;
+ 
+         VulkanCommandList(VulkanCommandQueue *queue);
+         ~VulkanCommandList() override;

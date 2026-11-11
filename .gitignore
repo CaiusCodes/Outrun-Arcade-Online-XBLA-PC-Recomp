@@ -1,0 +1,35 @@
+/ROM/
+/private/
+/OutRun Online Arcade Setup/
+/out/
+/generated/default/
+/metadata/
+/CMakeUserPresets.json
+*.log
+*.dmp
+/Setup OutRun Online Arcade.exe
+/OutRun-Online-Arcade-PC-Setup-*.zip
+/OutRun-Online-Arcade-PC-Setup-*.zip.sha256
+/OutRun-Online-Arcade-PC-*-portable.zip
+/OutRun-Online-Arcade-PC-*-portable.zip.sha256
+/OutRun-Online-Arcade-PC-*-portable-auto-lan.zip
+/OutRun-Online-Arcade-PC-*-portable-auto-lan.zip.sha256
+/OutRun-Online-Arcade-PC-*-portable-auto-lan-keyboard.zip
+/OutRun-Online-Arcade-PC-*-portable-auto-lan-keyboard.zip.sha256
+/OutRun-Online-Arcade-PC-*-portable-streamlined.zip
+/OutRun-Online-Arcade-PC-*-portable-streamlined.zip.sha256
+/OutRun-Online-Arcade-PC-*-portable-native-mouse.zip
+/OutRun-Online-Arcade-PC-*-portable-native-mouse.zip.sha256
+/OutRun-Online-Arcade-PC-*-portable-coastal-launcher.zip
+/OutRun-Online-Arcade-PC-*-portable-coastal-launcher.zip.sha256
+/OutRun-Online-Arcade-PC-*-portable-pause-controls.zip
+/OutRun-Online-Arcade-PC-*-portable-pause-controls.zip.sha256
+/OutRun-Online-Arcade-PC-*-portable-pause-dialog.zip
+/OutRun-Online-Arcade-PC-*-portable-pause-dialog.zip.sha256
+__pycache__/
+*.pyc
+
+# Release build output and archives (tools/Make-Release.ps1 writes to out/).
+*.zip
+*.zip.sha256
+*.pdb

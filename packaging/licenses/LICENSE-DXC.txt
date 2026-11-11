@@ -1,0 +1,10 @@
+DirectX Shader Compiler (dxcompiler.dll, dxil.dll)
+
+resources\dxcompiler.dll and resources\dxil.dll are Microsoft's DirectX Shader
+Compiler, redistributed unmodified (binaries via https://github.com/renderbag/dxc-bin,
+as used by XenosRecomp). The Plume renderer uses them to compile shaders on your PC.
+
+Source and full licence: https://github.com/microsoft/DirectXShaderCompiler
+DXC is distributed under the University of Illinois/NCSA Open Source License
+(see LICENSE.TXT in that repository). dxil.dll is Microsoft's redistributable
+DXIL signing library.

@@ -1,0 +1,251 @@
+--- a/include/rex/input/sdl/sdl_input_driver.h
++++ b/include/rex/input/sdl/sdl_input_driver.h
+@@ -15,6 +15,7 @@
+ #include <atomic>
+ #include <mutex>
+ #include <optional>
++#include <thread>
+ #include <vector>
+ 
+ #include <rex/input/input_driver.h>
+@@ -45,8 +46,10 @@
+   void OnWindowAvailable(rex::ui::Window* window) override;
+ 
+  private:
++  friend struct SDLInputDriverTestAccess;  // Headless virtual-controller regression fixture.
+   struct ControllerState {
+     SDL_Gamepad* sdl;
++    SDL_JoystickID instance_id;
+     X_INPUT_CAPABILITIES caps;
+     X_INPUT_STATE state;
+     bool state_changed;
+@@ -72,6 +75,9 @@
+   void OnLostFocus(rex::ui::UISetupEvent& e) override;
+   void OnGotFocus(rex::ui::UISetupEvent& e) override;
+ 
++  static bool SDLCALL WatchEvent(void* userdata, SDL_Event* event);
++  void StartJoystickUpdates();
++  void StopJoystickUpdates();
+   void HandleEvent(const SDL_Event& event);
+   std::unique_lock<std::mutex> DrainAndLock();
+   void ProcessEventLocked(const SDL_Event& event);
+@@ -97,6 +103,8 @@
+   std::mutex event_queue_mutex_;
+   std::vector<SDL_Event> pending_events_;
+   std::array<KeystrokeState, HID_SDL_USER_COUNT> keystroke_states_;
++  bool event_watch_registered_ = false;
++  std::jthread joystick_thread_;
+ };
+ 
+ // How many gamepads SDL has open right now - any kind (Xbox, PlayStation,
+--- a/src/input/sdl/sdl_input_driver.cpp
++++ b/src/input/sdl/sdl_input_driver.cpp
+@@ -10,6 +10,7 @@
+  */
+ 
+ #include <array>
++#include <chrono>
+ #include <filesystem>
+ 
+ #include <rex/assert.h>
+@@ -23,7 +24,30 @@
+ REXCVAR_DEFINE_STRING(hid_mappings_file, "gamecontrollerdb.txt", "Input",
+                       "Path to SDL gamecontroller mappings file");
+ 
++REXCVAR_DEFINE_BOOL(sdl_poll_timing_log, false, "Input/Diagnostics",
++                    "Log SDL joystick updates or event pumps taking more than 5 ms");
++
+ namespace rex::input::sdl {
++namespace {
++std::atomic<int> g_connected_gamepads{0};
++class PollTimer {
++ public:
++  explicit PollTimer(const char* operation)
++      : operation_(operation), enabled_(REXCVAR_GET(sdl_poll_timing_log)) {
++    if (enabled_) start_ = std::chrono::steady_clock::now();
++  }
++  ~PollTimer() {
++    if (!enabled_) return;
++    const double ms = std::chrono::duration<double, std::milli>(
++        std::chrono::steady_clock::now() - start_).count();
++    if (ms > 5.0) REXLOG_INFO("[input_timing] {} {:.3f} ms", operation_, ms);
++  }
++ private:
++  const char* operation_;
++  bool enabled_;
++  std::chrono::steady_clock::time_point start_;
++};
++}  // namespace
+ 
+ SDLInputDriver::SDLInputDriver(rex::ui::Window* window, size_t window_z_order)
+     : InputDriver(window, window_z_order),
+@@ -35,7 +59,38 @@
+       controllers_mutex_(),
+       keystroke_states_() {}
+ 
+-SDLInputDriver::~SDLInputDriver() {}
++SDLInputDriver::~SDLInputDriver() {
++  // Also stop on teardown paths that never receive a window-close event.
++  StopJoystickUpdates();
++}
++
++void SDLInputDriver::StartJoystickUpdates() {
++      joystick_thread_ = std::jthread([](std::stop_token stop) {
++        while (!stop.stop_requested()) {
++          { PollTimer timing("SDL_UpdateJoysticks worker"); SDL_UpdateJoysticks(); }
++          std::this_thread::sleep_for(std::chrono::milliseconds(4));
++        }
++      });
++}
++
++void SDLInputDriver::StopJoystickUpdates() {
++  if (joystick_thread_.joinable()) {
++    joystick_thread_.request_stop();
++    joystick_thread_.join();
++  }
++  // Do not leave a callback with a dangling driver pointer in SDL's watch list.
++  if (event_watch_registered_) {
++    SDL_RemoveEventWatch(&SDLInputDriver::WatchEvent, this);
++    event_watch_registered_ = false;
++  }
++}
++
++bool SDLCALL SDLInputDriver::WatchEvent(void* userdata, SDL_Event* event) {
++  if (!userdata || !event) return false;
++  if (event->type >= SDL_EVENT_JOYSTICK_AXIS_MOTION && event->type < SDL_EVENT_FINGER_DOWN)
++    static_cast<SDLInputDriver*>(userdata)->HandleEvent(*event);
++  return false;
++}
+ 
+ X_STATUS SDLInputDriver::Setup() {
+   if (!TestSDLVersion()) {
+@@ -60,27 +115,11 @@
+ 
+       // With an event watch we will always get notified, even if the event queue
+       // is full, which can happen if another subsystem does not clear its events.
+-      SDL_AddEventWatch(
+-          [](void* userdata, SDL_Event* event) -> bool {
+-            if (!userdata || !event) {
+-              assert_always();
+-              return false;
+-            }
+-
+-            const auto type = event->type;
+-            if (type < SDL_EVENT_JOYSTICK_AXIS_MOTION || type >= SDL_EVENT_FINGER_DOWN) {
+-              return false;
+-            }
+-
+-            // If another part of rex uses another SDL subsystem that generates
+-            // events, this may seem like a bad idea. They will however not
+-            // subscribe to controller events so we get away with that.
+-            const auto driver = static_cast<SDLInputDriver*>(userdata);
+-            driver->HandleEvent(*event);
+-
+-            return false;
+-          },
+-          this);
++      SDL_AddEventWatch(&SDLInputDriver::WatchEvent, this);
++      event_watch_registered_ = true;
++
++      // PumpEvents stays on the UI thread. Only joystick polling moves off it.
++      SDL_SetHint(SDL_HINT_AUTO_UPDATE_JOYSTICKS, "0");
+ 
+       // Initialize game controller subsystem
+       if (!SDL_InitSubSystem(SDL_INIT_GAMEPAD)) {
+@@ -106,22 +145,28 @@
+           }
+         }
+       }
+-      REXLOG_INFO("SDL input driver initialized successfully");
++      StartJoystickUpdates();
++      REXLOG_INFO("SDL input driver initialized successfully (joystick worker enabled)");
+     });
+   }
+ }
+ 
+ void SDLInputDriver::OnClosing(rex::ui::UIEvent&) {
++  // Join before closing devices or SDL; never hold the controller/event mutex
++  // while waiting for a worker that may be inside SDL's event watch.
++  StopJoystickUpdates();
+   if (attached_window_) {
+     attached_window_->RemoveListener(this);
+     if (sdl_pumpevents_queued_) {
+       attached_window_->app_context().CallInUIThreadSynchronous(
+           [this]() { attached_window_->app_context().ExecutePendingFunctionsFromUIThread(); });
+     }
++    std::lock_guard<std::mutex> guard(controllers_mutex_);
+     for (size_t i = 0; i < controllers_.size(); i++) {
+       if (controllers_.at(i).sdl) {
+         SDL_CloseGamepad(controllers_.at(i).sdl);
+         controllers_.at(i) = {};
++        g_connected_gamepads.fetch_sub(1, std::memory_order_relaxed);
+       }
+     }
+     if (SDL_Gamepad_initialized_) {
+@@ -433,10 +478,6 @@
+   }
+ }
+ 
+-namespace {
+-std::atomic<int> g_connected_gamepads{0};
+-}  // namespace
+-
+ int ConnectedGamepadCount() {
+   return g_connected_gamepads.load(std::memory_order_relaxed);
+ }
+@@ -480,7 +521,9 @@
+   }
+   if (user_id >= 0) {
+     auto& state = controllers_.at(user_id);
+-    state = {controller, {}};
++    state = {};
++    state.sdl = controller;
++    state.instance_id = event.cdevice.which;
+     // XInput seems to start with packet_number = 1 .
+     state.state_changed = true;
+     UpdateXCapabilities(state);
+@@ -511,7 +554,7 @@
+ 
+ void SDLInputDriver::OnControllerDeviceAxisMotionLocked(const SDL_Event& event) {
+   auto idx = GetControllerIndexFromInstanceID(event.gaxis.which);
+-  assert(idx);
++  if (!idx) return;  // A queued event may outlive a removed/ignored device.
+   auto& pad = controllers_.at(*idx).state.gamepad;
+   switch (event.gaxis.axis) {
+     case SDL_GAMEPAD_AXIS_LEFTX:
+@@ -576,7 +619,7 @@
+   static_assert(SDL_GAMEPAD_BUTTON_DPAD_RIGHT == 14);
+ 
+   auto idx = GetControllerIndexFromInstanceID(event.gdevice.which);
+-  assert(idx);
++  if (!idx) return;  // A queued event may outlive a removed/ignored device.
+   auto& controller = controllers_.at(*idx);
+ 
+   uint16_t xbuttons = controller.state.gamepad.buttons;
+@@ -607,11 +650,7 @@
+     if (!controller) {
+       continue;
+     }
+-    auto joystick = SDL_GetGamepadJoystick(controller);
+-    assert(joystick);
+-    auto joy_instance_id = SDL_GetJoystickID(joystick);
+-    assert(joy_instance_id >= 0);
+-    if (joy_instance_id == instance_id) {
++    if (controllers_.at(i).instance_id == instance_id) {
+       return i;
+     }
+   }
+@@ -679,11 +718,13 @@
+ }
+ 
+ void SDLInputDriver::QueueControllerUpdate() {
++  if (!attached_window_) return;
+   // Pump SDL events to ensure controller state is up to date.
+   bool is_queued = false;
+   sdl_pumpevents_queued_.compare_exchange_strong(is_queued, true);
+   if (!is_queued) {
+     attached_window_->app_context().CallInUIThread([this]() {
++      PollTimer timing("SDL_PumpEvents UI");
+       SDL_PumpEvents();
+       sdl_pumpevents_queued_ = false;
+     });

@@ -1,0 +1,60 @@
+--- a/src/core/timer_queue.cpp
++++ b/src/core/timer_queue.cpp
+@@ -20,6 +20,13 @@
+ #include <rex/assert.h>
+ #include <rex/thread.h>
+ #include <rex/thread/timer_queue.h>
++#include <rex/platform.h>
++#if REX_PLATFORM_WIN32
++#ifndef NOMINMAX
++#define NOMINMAX
++#endif
++#include <windows.h>
++#endif
+ 
+ namespace dp = disruptorplus;
+ 
+@@ -64,12 +71,41 @@
+ 
+     set_current_thread_name("rex::thread::TimerQueue");
+ 
++#if REX_PLATFORM_WIN32
++    // The kernel's 1 ms timestamp timer makes the publication wait's initial
++    // spin costly. Sleep to the next due item (at most 1 ms for new arrivals),
++    // then inspect publication without entering that spin. Keep the old wait
++    // as the fallback if the high-resolution timer is unavailable or fails.
++    struct SleepTimer {
++      HANDLE handle = CreateWaitableTimerExW(nullptr, nullptr,
++          CREATE_WAITABLE_TIMER_HIGH_RESOLUTION, TIMER_MODIFY_STATE | SYNCHRONIZE);
++      ~SleepTimer() { if (handle) CloseHandle(handle); }
++    } sleep_timer;
++#endif
++
+     while (!stop_token.stop_requested()) {
+       {
+         // Consume new wait items and add them to sorted wait queue
++        const auto due = wait_queue_.empty() ? clock::time_point::max() : wait_queue_.front()->due_;
++#if REX_PLATFORM_WIN32
++        bool use_nonblocking_read = sleep_timer.handle != nullptr;
++        const auto now = clock::now();
++        if (use_nonblocking_read && due > now) {
++          const auto duration = std::min<clock::duration>(due - now, std::chrono::milliseconds(1));
++          LARGE_INTEGER relative_due;
++          relative_due.QuadPart = -std::max<int64_t>(1,
++              std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count() / 100);
++          use_nonblocking_read = SetWaitableTimer(sleep_timer.handle, &relative_due, 0,
++                                                 nullptr, nullptr, FALSE) &&
++              WaitForSingleObject(sleep_timer.handle, INFINITE) == WAIT_OBJECT_0;
++        }
++        dp::sequence_t available = use_nonblocking_read
++            ? claim_strategy_.last_published_after(next_sequence - 1)
++            : claim_strategy_.wait_until_published(next_sequence, next_sequence - 1, due);
++#else
+         dp::sequence_t available = claim_strategy_.wait_until_published(
+-            next_sequence, next_sequence - 1,
+-            wait_queue_.empty() ? clock::time_point::max() : wait_queue_.front()->due_);
++            next_sequence, next_sequence - 1, due);
++#endif
+ 
+         // Check for timeout
+         if (available != next_sequence - 1) {
