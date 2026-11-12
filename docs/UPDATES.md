@@ -46,10 +46,14 @@ Log: resources\logs\update.log.
 
 ## Configuration
 
-- Repository and ZIP name: CMake `OUTRUN_UPDATE_REPO` = `CaiusCodes/Outrun-Arcade-Online-XBLA-PC-Recomp` (the
-  user's repo) and `OUTRUN_UPDATE_ZIP_PREFIX` = `Outrun-Arcade-Online-XBLA-PC-Recomp-v` (the repo name, as the
+- Repository and ZIP name: CMake `OUTRUN_UPDATE_REPO` = `CaiusCodes/Outrun-Online-Arcade-XBLA-PC-Recomp` (the
+  user's repo) and `OUTRUN_UPDATE_ZIP_PREFIX` = `Outrun-Online-Arcade-XBLA-PC-Recomp-v` (the repo name, as the
   GoldenEye and Perfect Dark releases do), and the same two constants in setup/portable/Updater.cs
   (UpdateSource). Keep them equal; an existing build folder needs `-D` for both (cached).
+- The repository was renamed on 2026-11-12 from Outrun-Arcade-Online-XBLA-PC-Recomp (GitHub redirects
+  the old API URL). Copies of 0.9.0 downloaded before then look for the asset
+  `Outrun-Arcade-Online-XBLA-PC-Recomp-v<version>.zip`, so attach each later release ZIP under both
+  names (same file, same SHA-256) until those copies have updated.
 - `OUTRUN_UPDATE_API` (environment): another releases/latest URL, https or http on 127.0.0.1/localhost.
   The game passes it on to the launcher.
 - Test-only: `OUTRUN_UPDATE_TEST_FAIL_AFTER=n` makes the swap fail after n files (rollback test);

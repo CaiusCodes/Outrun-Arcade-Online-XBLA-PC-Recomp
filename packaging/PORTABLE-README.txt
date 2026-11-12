@@ -45,7 +45,7 @@ can also extract a newer release ZIP over this folder.
 REPORTING A PROBLEM
 Close the game and attach the latest log from resources\logs (the newest
 outrun_NNN.log) to your report, with what happened and roughly where:
-https://github.com/CaiusCodes/Outrun-Arcade-Online-XBLA-PC-Recomp/issues
+https://github.com/CaiusCodes/Outrun-Online-Arcade-XBLA-PC-Recomp/issues
 
 FOLDERS
 OutRun Online Arcade.exe   launcher, importer and updater

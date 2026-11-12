@@ -39,10 +39,10 @@ namespace outrun::update {
 // equal to setup/portable/Updater.cs. An empty repository means this build has
 // no update source (only OUTRUN_UPDATE_API works).
 #ifndef OUTRUN_UPDATE_REPO
-#define OUTRUN_UPDATE_REPO "CaiusCodes/Outrun-Arcade-Online-XBLA-PC-Recomp"
+#define OUTRUN_UPDATE_REPO "CaiusCodes/Outrun-Online-Arcade-XBLA-PC-Recomp"
 #endif
 #ifndef OUTRUN_UPDATE_ZIP_PREFIX
-#define OUTRUN_UPDATE_ZIP_PREFIX "Outrun-Arcade-Online-XBLA-PC-Recomp-v"
+#define OUTRUN_UPDATE_ZIP_PREFIX "Outrun-Online-Arcade-XBLA-PC-Recomp-v"
 #endif
 inline const char* const kRepository = OUTRUN_UPDATE_REPO;
 inline const char* const kZipPrefix = OUTRUN_UPDATE_ZIP_PREFIX;

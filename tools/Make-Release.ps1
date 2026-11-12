@@ -8,7 +8,7 @@
 # launcher from setup\ with the .NET Framework compiler, neutralises any
 # build-machine paths left in the binaries (tools\Scrub-BuildPaths.py), refuses
 # to package game files, settings, saves or user paths, and writes
-# <OutDir>\Outrun-Arcade-Online-XBLA-PC-Recomp-v<VERSION>.zip (the name Check for
+# <OutDir>\Outrun-Online-Arcade-XBLA-PC-Recomp-v<VERSION>.zip (the name Check for
 # Updates looks for) with its .sha256.
 param(
   [string]$BuildDir = 'out\build\win-amd64-release',
@@ -82,7 +82,7 @@ $sums = foreach ($n in $files) { (Get-FileHash (Join-Path $stage $n)).Hash + '  
 [IO.File]::WriteAllLines((Join-Path $res 'SHA256SUMS.txt'), $sums, [Text.UTF8Encoding]::new($false))
 
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-$zip = Join-Path $out "Outrun-Arcade-Online-XBLA-PC-Recomp-v$version.zip"
+$zip = Join-Path $out "Outrun-Online-Arcade-XBLA-PC-Recomp-v$version.zip"
 if (Test-Path $zip) { Remove-Item $zip }
 $a = [IO.Compression.ZipFile]::Open($zip, 'Create')
 try {

@@ -42,8 +42,8 @@ namespace Outrun.Setup {
     // game's Check for Updates). An empty repository leaves only the
     // OUTRUN_UPDATE_API test override.
     internal static class UpdateSource {
-        internal const string Repository="CaiusCodes/Outrun-Arcade-Online-XBLA-PC-Recomp";
-        internal const string ZipPrefix="Outrun-Arcade-Online-XBLA-PC-Recomp-v";
+        internal const string Repository="CaiusCodes/Outrun-Online-Arcade-XBLA-PC-Recomp";
+        internal const string ZipPrefix="Outrun-Online-Arcade-XBLA-PC-Recomp-v";
         // OUTRUN_UPDATE_API (environment, for tests) points at another releases
         // URL: https, or http on 127.0.0.1 / localhost.
         internal static string ApiUrl() {

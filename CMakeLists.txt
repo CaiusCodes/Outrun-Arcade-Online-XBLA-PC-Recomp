@@ -181,8 +181,8 @@ target_link_libraries(outrun PRIVATE dxgi dinput8 dxguid gdiplus)
 # release ZIP's name before its version. Keep both equal to
 # setup/portable/Updater.cs. An empty repository leaves only the
 # OUTRUN_UPDATE_API test override.
-set(OUTRUN_UPDATE_REPO "CaiusCodes/Outrun-Arcade-Online-XBLA-PC-Recomp" CACHE STRING "GitHub owner/name for Check for Updates")
-set(OUTRUN_UPDATE_ZIP_PREFIX "Outrun-Arcade-Online-XBLA-PC-Recomp-v" CACHE STRING "Release ZIP name before its version")
+set(OUTRUN_UPDATE_REPO "CaiusCodes/Outrun-Online-Arcade-XBLA-PC-Recomp" CACHE STRING "GitHub owner/name for Check for Updates")
+set(OUTRUN_UPDATE_ZIP_PREFIX "Outrun-Online-Arcade-XBLA-PC-Recomp-v" CACHE STRING "Release ZIP name before its version")
 target_compile_definitions(outrun PRIVATE "OUTRUN_UPDATE_REPO=\"${OUTRUN_UPDATE_REPO}\""
     "OUTRUN_UPDATE_ZIP_PREFIX=\"${OUTRUN_UPDATE_ZIP_PREFIX}\"")
 

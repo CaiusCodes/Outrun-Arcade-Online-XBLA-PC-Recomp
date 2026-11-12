@@ -14,7 +14,7 @@ Race through all 15 stages and 5 goals at **up to 4K and 60 FPS**, with a native
 
 ## Download & Installation
 
-**[Download the latest release](https://github.com/CaiusCodes/Outrun-Arcade-Online-XBLA-PC-Recomp/releases)**
+**[Download the latest release](https://github.com/CaiusCodes/Outrun-Online-Arcade-XBLA-PC-Recomp/releases)**
 
 1. Download the latest ZIP and extract the **OutRun Online Arcade** folder.
 2. Run `OutRun Online Arcade.exe`.
@@ -105,7 +105,7 @@ An Xbox controller is recommended and uses the original console controls.
 - Audio fixes for clicks, loops and start volume.
 - Keyboard and mouse navigation throughout the front end.
 
-For detailed changes, see the [GitHub Releases](https://github.com/CaiusCodes/Outrun-Arcade-Online-XBLA-PC-Recomp/releases).
+For detailed changes, see the [GitHub Releases](https://github.com/CaiusCodes/Outrun-Online-Arcade-XBLA-PC-Recomp/releases).
 
 ## Updates
 
@@ -129,7 +129,7 @@ Alternatively, download the latest release ZIP and extract it over your existing
 
 ## Reporting Issues
 
-Found a bug? [Open a GitHub Issue](https://github.com/CaiusCodes/Outrun-Arcade-Online-XBLA-PC-Recomp/issues).
+Found a bug? [Open a GitHub Issue](https://github.com/CaiusCodes/Outrun-Online-Arcade-XBLA-PC-Recomp/issues).
 
 1. Close the game.
 2. Attach the latest log from `resources\logs\` (the newest `outrun_NNN.log`) to your report.
