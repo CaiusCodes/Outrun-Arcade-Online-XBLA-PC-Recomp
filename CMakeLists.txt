@@ -217,8 +217,12 @@ if(WIN32 AND OUTRUN_NATIVE_RENDERER)
     # stay off the generated code (no full rebuild when the renderer changes).
     add_library(outrun_native OBJECT src/native_gpu.cpp src/native_shaders.cpp src/native_vk_output.cpp)
     target_compile_features(outrun_native PRIVATE cxx_std_23)
-    target_include_directories(outrun_native PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/src"
+    target_include_directories(outrun_native PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src"
         "${REXGLUE_ENTRYPOINT_INCLUDE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}/generated_include")
+    # The project root for "generated/..." includes only: as a -I path the root's
+    # VERSION file stood in for the standard <version> header (case-insensitive
+    # file system) and broke clean builds.
+    target_compile_options(outrun_native PRIVATE "-iquote${CMAKE_CURRENT_SOURCE_DIR}")
     target_link_libraries(outrun_native PRIVATE rex::runtime)
     rexglue_apply_target_settings(outrun_native)
     target_link_libraries(outrun PRIVATE outrun_native)
@@ -239,7 +243,9 @@ if(WIN32 AND OUTRUN_NATIVE_RENDERER)
     target_include_directories(outrun_plume BEFORE PUBLIC "${OUTRUN_PLUME_DIR}/contrib/Vulkan-Headers/include")
     target_include_directories(outrun_native BEFORE PRIVATE "${OUTRUN_PLUME_DIR}/contrib/Vulkan-Headers/include")
     # The SDK's Vulkan presenter headers include renderdoc_app.h (installed in include/renderdoc).
-    set_property(SOURCE src/native_vk_output.cpp APPEND PROPERTY INCLUDE_DIRECTORIES "${OUTRUN_SDK_PREFIX}/include/renderdoc")
+    # The renderer uses it too: a test script word captures one frame when RenderDoc is attached.
+    set_property(SOURCE src/native_vk_output.cpp src/native_gpu.cpp APPEND PROPERTY INCLUDE_DIRECTORIES
+                 "${OUTRUN_SDK_PREFIX}/include/renderdoc")
     target_compile_definitions(outrun_plume PUBLIC WIN32_LEAN_AND_MEAN NOMINMAX)
     # The SDK already links volk (volk.lib): Plume's Vulkan backend uses that copy.
     target_compile_definitions(outrun_plume PRIVATE PLUME_EXTERNAL_VOLK)

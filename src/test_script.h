@@ -13,6 +13,9 @@
 // the overlays see it as the mouse (pointer::testCursor). "<seconds>:!<x>/<y>"
 // clicks there. "<seconds>:mark" makes one player-log bug mark, as F8 does
 // (player_log.cpp), so a background run can test it without focus.
+// "<seconds>:rdc" captures the next frame with RenderDoc when it is attached
+// (gpu_native_rdc_capture); "<seconds>:trace" traces the next frame into the
+// log (gpu_native_trace_frame = -1; native renderer only).
 //
 // outrun_test_route (e.g. "RLRL") picks the forks: from 40 game seconds into
 // stage k the pad nudges to that side (0.9 s in every 4.5, so the car drifts
@@ -83,6 +86,14 @@ inline bool Read(rex::input::X_INPUT_STATE* state) {
     const Step& s = steps[i];
     if (s.button == "mark") {
       if (!moved[i] && now >= s.at) { moved[i] = true; markRequested = true; }
+      continue;
+    }
+    if (s.button == "rdc" || s.button == "trace") {  // one RenderDoc capture / a frame trace into the log, next frame
+      if (!moved[i] && now >= s.at) {
+        moved[i] = true;
+        if (s.button == "rdc") rex::cvar::SetFlagByName("gpu_native_rdc_capture", "true");
+        else rex::cvar::SetFlagByName("gpu_native_trace_frame", "-1");
+      }
       continue;
     }
     if (!s.button.empty() && (s.button[0] == '@' || s.button[0] == '!')) {
