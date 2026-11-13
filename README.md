@@ -51,9 +51,9 @@ The installation is portable: imported game files, saves and settings are stored
 - Vivid Colors, Contrast and Black Level picture settings
 - Shaders are translated once on your PC and cached; the menus, title and first stages are prepared ahead so races start smoothly
 
-![Floral Village at 1080p](docs/screenshots/gameplay.jpg)
-
 ![Palm Beach](docs/screenshots/palm-beach.jpg)
+
+![Floral Village at 1080p](docs/screenshots/gameplay.jpg)
 
 ![Help & Options, Graphics](docs/screenshots/graphics-settings.jpg)
 
@@ -73,10 +73,6 @@ The installation is portable: imported game files, saves and settings are stored
 - Compatible with Radmin VPN, ZeroTier, Tailscale and Hamachi
 - Automatic lobby discovery, with a manual host address as a fallback
 - Online name and ping display in **Multiplayer → Multiplayer Options**
-
-No Xbox Live connection is required.
-
-![Multiplayer menu](docs/screenshots/multiplayer.jpg)
 
 ![LAN lobby](docs/screenshots/lan-lobby.jpg)
 
@@ -121,7 +117,6 @@ Alternatively, download the latest release ZIP and extract it over your existing
 - Only the supported OutRun Online Arcade XBLA build (Title ID `58410968`, revision `0.0.1.5`) is accepted; DLC is not imported.
 - Mostly tested on NVIDIA graphics; AMD and Intel GPUs have had less testing.
 - LAN play between different PCs has had limited testing.
-- Some issues inherited from the original game or the recompilation may remain (for example a faint pop on some sound effects).
 - Windows SmartScreen may warn about the unsigned executable.
 - Windows Firewall may request permission for multiplayer connections.
 
