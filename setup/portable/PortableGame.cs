@@ -243,6 +243,31 @@ namespace Outrun.Setup {
             string runtime=Path.Combine(Resources,"outrun.exe");if(!File.Exists(runtime))throw new IOException("Extract the complete portable ZIP including resources.");
             return new ProcessStartInfo(runtime){WorkingDirectory=Resources,UseShellExecute=false};
         }
-        internal void Launch(){using(Lock()){RecoverLocked();Process.Start(LaunchInfo());}}
+        internal Process Launch(){using(Lock()){RecoverLocked();return Process.Start(LaunchInfo());}}
+        // The running game from this copy's resources folder, if any (the copy
+        // Restart Now starts replaces the one that was started).
+        internal Process RunningGame() {
+            foreach(var p in Process.GetProcessesByName("outrun")) {
+                try{if(String.Equals(Path.GetDirectoryName(p.MainModule.FileName),Resources,StringComparison.OrdinalIgnoreCase))return p;}catch(System.ComponentModel.Win32Exception){}catch(InvalidOperationException){}
+                p.Dispose();
+            }
+            return null;
+        }
+        // An extracted copy of the package (a folder with default.xex at its top).
+        // Only --prepare uses this; the setup window keeps its own package import.
+        internal void ImportFolder(string folder,Action<int,string> report,CancellationToken cancel) {
+            using(Lock()) {
+                CheckNotRunning();RecoverLocked();if(Ready())throw new IOException("Game files are already imported. Your working installation has been preserved.");
+                folder=Path.GetFullPath(folder);Paths.CheckParents(folder);
+                if(Inside(folder,Root)||Inside(Root,folder))throw new IOException("Choose the extracted game folder, not this game's own folder.");
+                GameValidation.Check(folder);cancel.ThrowIfCancellationRequested();string stage=NewStage();
+                try {
+                    var replacements=new Dictionary<string,string>();string data=Path.Combine(stage,"assets");
+                    report(5,"Copying game files");CopyTree(folder,data,cancel);
+                    GameValidation.Check(data);replacements.Add("assets",data);FreshConfig(stage,replacements);AddManifest(stage,data,replacements);
+                    report(95,"Finishing import…");Commit(stage,replacements,cancel);report(100,"Ready to play.");
+                }finally{if(!File.Exists(JournalPath)&&Directory.Exists(stage))Remove(stage);}
+            }
+        }
     }
 }
