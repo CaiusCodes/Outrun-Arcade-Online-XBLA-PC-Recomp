@@ -1,0 +1,191 @@
+{
+  "$schema": "https://recomplauncher.com/schema/recomplauncher.json",
+  "format": 1,
+  "name": "OutRun Online Arcade",
+  "repo": "CaiusCodes/Outrun-Online-Arcade-XBLA-PC-Recomp",
+  "game": {
+    "kind": "iso_or_folder",
+    "label": "Your OutRun Online Arcade Xbox Live Arcade package (title 58410968, version 0.0.1.5): the package file from 58410968\\000D0000, a folder that holds it, or its extracted folder with default.xex."
+  },
+  "prepare": {
+    "program": ["OutRun Online Arcade.exe"],
+    "args": ["--prepare", "--game", "{game}"],
+    "label": "Game files from your package",
+    "timeout": 600
+  },
+  "start": {
+    "program": ["OutRun Online Arcade.exe"],
+    "args": ["--play"]
+  },
+  "config": [
+    {
+      "id": "main",
+      "format": "toml",
+      "file": [{ "path": "{install}/resources/pc-settings.toml" }],
+      "new": {
+        "fullscreen": "false",
+        "resolution_scale": "1",
+        "show_fps": "false",
+        "outrun_window_resolution": "0",
+        "outrun_present_filter": "0",
+        "outrun_aspect_ratio": "0",
+        "gpu_native_texture_filtering": "0",
+        "gpu_native_msaa": "4",
+        "color_saturation": "1.0",
+        "color_contrast": "1.0",
+        "color_black_level": "0.0",
+        "outrun_hud": "0"
+      }
+    }
+  ],
+  "saves": [
+    "{install}/resources/userdata",
+    "{install}/resources/pc-settings.toml",
+    "{install}/resources/multiplayer-settings.toml",
+    "{install}/resources/outrun.toml"
+  ],
+  "folders": {
+    "saves": [{ "path": "{install}/resources/userdata" }],
+    "logs": [{ "path": "{install}/resources/logs" }],
+    "resources": [{ "path": "{install}/resources" }]
+  },
+  "exit_codes": {
+    "75": "The game files aren't set up yet. Pick your OutRun Online Arcade package on the game's page.",
+    "76": "Part of the game's program is missing. Reinstall OutRun Online Arcade from the launcher."
+  },
+  "looks": {
+    "allowed": false,
+    "reason": "OutRun has its own picture options (Sharpen, FSR, Vivid Colors, Contrast and Black Level) in Help & Options > Graphics."
+  },
+  "groups": [{ "id": "Picture", "advanced": true }],
+  "settings": [
+    {
+      "id": "display", "label": "Display mode",
+      "help": "Fullscreen fills your screen. Windowed uses Window size.",
+      "choices": [
+        { "label": "Windowed", "set": { "fullscreen": "false" } },
+        { "label": "Fullscreen", "set": { "fullscreen": "true" } }
+      ],
+      "defaults": { "fullscreen": "false" }
+    },
+    {
+      "id": "window_size", "label": "Window size",
+      "help": "The size of the game's window in Windowed mode.",
+      "choices": [
+        { "label": "1280 x 720", "set": { "outrun_window_resolution": "0" } },
+        { "label": "1920 x 1080", "set": { "outrun_window_resolution": "1" } },
+        { "label": "2560 x 1440", "set": { "outrun_window_resolution": "2" } },
+        { "label": "3840 x 2160", "set": { "outrun_window_resolution": "3" } }
+      ],
+      "defaults": { "outrun_window_resolution": "0", "fullscreen": "false" },
+      "when": { "fullscreen": "false" }
+    },
+    {
+      "id": "render_scale", "label": "Render scale",
+      "help": "1x draws at the Xbox 360's own 1280 x 720 (1024 x 768 at 4:3). 2x and 3x are sharper and need a faster graphics card.",
+      "choices": [
+        { "label": "1x", "set": { "resolution_scale": "1" } },
+        { "label": "2x", "set": { "resolution_scale": "2" } },
+        { "label": "3x", "set": { "resolution_scale": "3" } }
+      ],
+      "defaults": { "resolution_scale": "1" }
+    },
+    {
+      "id": "aspect", "label": "Aspect ratio",
+      "help": "16:9 as on the Xbox 360, or 4:3 like the arcade screen.",
+      "choices": [
+        { "label": "16:9", "set": { "outrun_aspect_ratio": "0" } },
+        { "label": "4:3", "set": { "outrun_aspect_ratio": "1" } }
+      ],
+      "defaults": { "outrun_aspect_ratio": "0" }
+    },
+    {
+      "id": "antialiasing", "label": "Anti-aliasing",
+      "help": "Smooths the edges of the road and cars. 4x is the console's own.",
+      "choices": [
+        { "label": "Off", "set": { "gpu_native_msaa": "1" } },
+        { "label": "2x", "set": { "gpu_native_msaa": "2" } },
+        { "label": "4x", "set": { "gpu_native_msaa": "4" } },
+        { "label": "8x", "set": { "gpu_native_msaa": "8" } }
+      ],
+      "defaults": { "gpu_native_msaa": "4" }
+    },
+    {
+      "id": "texture_filtering", "label": "Texture filtering",
+      "help": "Keeps the road and roadside sharp at shallow angles. The original asks for none.",
+      "choices": [
+        { "label": "Off", "set": { "gpu_native_texture_filtering": "0" } },
+        { "label": "2x", "set": { "gpu_native_texture_filtering": "1" } },
+        { "label": "4x", "set": { "gpu_native_texture_filtering": "2" } },
+        { "label": "8x", "set": { "gpu_native_texture_filtering": "3" } },
+        { "label": "16x", "set": { "gpu_native_texture_filtering": "4" } }
+      ],
+      "defaults": { "gpu_native_texture_filtering": "0" }
+    },
+    {
+      "id": "image_filter", "label": "Image filter",
+      "help": "How the picture is fitted to your screen. Sharpen and FSR make it crisper.",
+      "choices": [
+        { "label": "Standard", "set": { "outrun_present_filter": "0" } },
+        { "label": "Sharpen", "set": { "outrun_present_filter": "1" } },
+        { "label": "FSR", "set": { "outrun_present_filter": "2" } }
+      ],
+      "defaults": { "outrun_present_filter": "0" }
+    },
+    {
+      "id": "hud", "label": "HUD",
+      "help": "The speedometer, time and map. Original is the game's own art; Sharp and HD are redrawn for high resolutions.",
+      "choices": [
+        { "label": "Original", "set": { "outrun_hud": "0" } },
+        { "label": "Sharp", "set": { "outrun_hud": "1" } },
+        { "label": "HD", "set": { "outrun_hud": "2" } },
+        { "label": "Off", "set": { "outrun_hud": "3" } }
+      ],
+      "defaults": { "outrun_hud": "0" }
+    },
+    {
+      "id": "fps", "label": "Show FPS",
+      "help": "The frame rate in a corner of the game.",
+      "choices": [
+        { "label": "Off", "set": { "show_fps": "false" } },
+        { "label": "On", "set": { "show_fps": "true" } }
+      ],
+      "defaults": { "show_fps": "false" }
+    },
+    {
+      "id": "saturation", "label": "Vivid colors", "group": "Picture",
+      "help": "Stronger colours than the original.",
+      "choices": [
+        { "label": "Off", "set": { "color_saturation": "1.0" } },
+        { "label": "Low", "set": { "color_saturation": "1.15" } },
+        { "label": "High", "set": { "color_saturation": "1.3" } }
+      ],
+      "defaults": { "color_saturation": "1.0" }
+    },
+    {
+      "id": "contrast", "label": "Contrast", "group": "Picture",
+      "help": "Normal is the original picture.",
+      "choices": [
+        { "label": "Low", "set": { "color_contrast": "0.9" } },
+        { "label": "Normal", "set": { "color_contrast": "1.0" } },
+        { "label": "High", "set": { "color_contrast": "1.15" } }
+      ],
+      "defaults": { "color_contrast": "1.0" }
+    },
+    {
+      "id": "black_level", "label": "Black level", "group": "Picture",
+      "help": "Deeper makes dark areas darker. Normal is the original picture.",
+      "choices": [
+        { "label": "Normal", "set": { "color_black_level": "0.0" } },
+        { "label": "Deeper", "set": { "color_black_level": "0.03" } },
+        { "label": "Deepest", "set": { "color_black_level": "0.06" } }
+      ],
+      "defaults": { "color_black_level": "0.0" }
+    }
+  ],
+  "actions": [
+    { "id": "saves", "label": "Saves", "help": "Your OutRun save, scores and profile (the default save folder).", "open": "saves" },
+    { "id": "logs", "label": "Logs", "help": "Attach the newest outrun_NNN.log to a bug report.", "open": "logs" },
+    { "id": "shader_cache", "label": "Shader cache", "help": "Shaders the game has built so races don't stutter. Clearing only helps if graphics look wrong after an update.", "clear": "resources/cache" }
+  ]
+}

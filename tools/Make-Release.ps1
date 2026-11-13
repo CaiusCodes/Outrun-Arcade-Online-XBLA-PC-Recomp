@@ -38,6 +38,8 @@ Copy-Item (Join-Path $root 'packaging\outrun.toml') (Join-Path $res 'defaults.to
 Copy-Item (Join-Path $root 'packaging\resources\outrun.ico') $res
 Copy-Item (Join-Path $root 'packaging\PORTABLE-README.txt') (Join-Path $stage 'README.txt')
 Copy-Item (Join-Path $root 'packaging\licenses') $stage -Recurse
+# RecompLauncher setup and settings (docs/RECOMPLAUNCHER.md), next to the launcher.
+Copy-Item (Join-Path $root 'packaging\recomplauncher.json') $stage
 
 # Launcher (importer, setup and updater).
 $compiler = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
