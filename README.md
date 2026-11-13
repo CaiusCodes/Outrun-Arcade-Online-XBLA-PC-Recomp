@@ -8,6 +8,8 @@ Race through all 15 stages and 5 goals at **up to 4K and 60 FPS**, with a native
 
 [![Support me on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/caiuscodes)
 
+<a href="https://recomplauncher.com"><picture><source media="(prefers-color-scheme: dark)" srcset="https://recomplauncher.com/assets/press/launcher/badge-light.svg"><img alt="Get it on RecompLauncher" src="https://recomplauncher.com/assets/press/launcher/badge-dark.svg" height="48"></picture></a>
+
 ![OutRun Online Arcade title screen](docs/screenshots/title.jpg)
 
 > **You must provide your own copy of OutRun Online Arcade (XBLA).** No original game files or assets are distributed with this project. The launcher imports the required files from your Xbox 360 game package during first-time setup.
@@ -25,6 +27,8 @@ Race through all 15 stages and 5 goals at **up to 4K and 60 FPS**, with a native
 ![Setup window](docs/screenshots/setup.png)
 
 After setup, simply run `OutRun Online Arcade.exe` to play. Your original game package is no longer needed and is never changed.
+
+**With RecompLauncher:** the release includes a `recomplauncher.json`, so RecompLauncher can import your package, show the Graphics settings on the game's page and start the game. See [docs/RECOMPLAUNCHER.md](docs/RECOMPLAUNCHER.md).
 
 **To reopen setup:** select **Help & Options → Setup** in the game, or hold **Shift** while launching.
 
